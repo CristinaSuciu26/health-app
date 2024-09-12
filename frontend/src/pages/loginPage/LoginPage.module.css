@@ -1,0 +1,95 @@
+.leafsImg,
+.layerImg,
+.bananaImg,
+.leafsDesktopImg,
+.strawberryImg,
+.layerDesktopImg,
+.bananaDesktopImg,
+.strawberryDesktopImg {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .loginContainer {
+    width: 768px;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    padding-left: 27px;
+    flex-wrap: wrap;
+  }
+
+  .leafsImg {
+    position: absolute;
+    top: 380px;
+    right: 80px;
+    display: block;
+    z-index: 1;
+  }
+
+  .layerImg {
+    position: absolute;
+    top: 348px;
+    right: 0px;
+    display: block;
+  }
+
+  .bananaImg {
+    position: absolute;
+    top: 482px;
+    right: 0px;
+    display: block;
+  }
+
+  .strawberryImg {
+    position: absolute;
+    top: 455px;
+    right: 0px;
+    display: block;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .loginContainer {
+    margin-top: 70px;
+  }
+  .layerImg,
+  .bananaImg,
+  .strawberryImg,
+  .leafsImg {
+    display: none;
+  }
+  .imagesContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .leafsDesktopImg {
+    right: 50px;
+    top: 10px;
+    display: block;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .layerDesktopImg {
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    display: block;
+  }
+
+  .bananaDesktopImg {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 0px;
+  }
+
+  .strawberryDesktopImg {
+    display: block;
+    position: absolute;
+    right: 0px;
+    top: 369px;
+  }
+}

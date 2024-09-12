@@ -1,38 +1,32 @@
-.App {
-  text-align: center;
+@import-normalize;
+body {
+  margin: 0;
+  font-family: "Verdana", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+:root {
+  --color-primary: #fc842d; /* Main brand color */
+  --color-secondary: #fff; /* Background color */
+  --color-muted: #9b9faa; /* Muted text color */
+  --color-text-primary: #212121; /* Primary text color */
+  --color-shadow: #fc842d80; /* Shadow color with transparency */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#root {
   display: flex;
+  /* justify-content: center; */
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: hidden;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

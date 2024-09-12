@@ -1,0 +1,29 @@
+.header {
+    background-color: var(--color-secondary);
+    color: var(--color-text-primary);
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid rgb(224, 220, 220);
+  }
+  
+  @media screen and (min-width: 768px) {
+    .header {
+      justify-content: space-evenly;
+      gap: 79px;
+      width: 768px;
+    }
+  }
+  
+  @media screen and (min-width: 1280px) {
+    .header {
+      border-bottom: none;
+      justify-content: left;
+      padding-top: 25px;
+      gap: 0px;
+      width: 1280px;
+    }
+  }
+  

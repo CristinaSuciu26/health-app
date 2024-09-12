@@ -1,0 +1,57 @@
+import React, { useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { IoCalendarNumberOutline } from "react-icons/io5";
+import styles from "./DiaryDateCalendar.module.css";
+import { useSelector } from "react-redux";
+import { selectSelectedDate } from "../../redux/calorieIntake/calorieIntakeSelectors";
+
+const DiaryDateCalendar = ({ onDateChange }) => {
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
+  const selectedDate = useSelector(selectSelectedDate);
+
+  const currentSelectedDate = selectedDate
+    ? new Date(selectedDate)
+    : new Date();
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("en-US").format(date);
+  };
+
+  const formattedDate = formatDate(currentSelectedDate);
+
+  const toggleCalendar = () => {
+    setIsCalendarVisible((prev) => !prev);
+  };
+
+  const handleDateChange = (date) => {
+    if (date instanceof Date && !isNaN(date.getTime())) {
+      onDateChange(date);
+    } else {
+      console.error("Invalid date:", date);
+    }
+  };
+
+  return (
+    <div className={styles.calendarContainer}>
+      <h1>{formattedDate}</h1>
+
+      <button onClick={toggleCalendar}>
+        <IoCalendarNumberOutline />
+      </button>
+
+      {isCalendarVisible && (
+        <div>
+          <Calendar
+            onChange={handleDateChange}
+            value={currentSelectedDate}
+            maxDate={new Date()}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default DiaryDateCalendar;
