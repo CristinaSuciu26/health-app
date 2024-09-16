@@ -1,5 +1,4 @@
-import { login, logout, register } from "./authOperations.js";
-import { refresh } from "../../api/axiosWithAuth.js";
+import { login, logout, register, refreshToken } from "./authOperations.js";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -18,6 +17,7 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers: {},
   extraReducers: (builder) => {
     // Registration
     builder.addCase(register.pending, (state) => {
@@ -26,14 +26,15 @@ const authSlice = createSlice({
     });
     builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.accessToken;
+      state.token = action.payload.token;
+      state.token = action.payload.token;
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Registration successful!";
     });
     builder.addCase(register.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload || "Registration failed";
+      state.error = action.payload;
     });
 
     // Login
@@ -42,15 +43,28 @@ const authSlice = createSlice({
       state.error = null;
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      state.token = action.payload.accessToken;
       state.user = action.payload.user;
+      state.token = action.payload.token;
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Login successful!";
     });
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload || "Login failed";
+      state.error = action.payload;
+    });
+
+    // Token Refresh
+    builder.addCase(refreshToken.pending, (state) => {
+      state.isRefreshing = true;
+    });
+    builder.addCase(refreshToken.fulfilled, (state, action) => {
+      state.token = action.payload.token;
+      state.isRefreshing = false;
+    });
+    builder.addCase(refreshToken.rejected, (state, action) => {
+      state.isRefreshing = false;
+      state.error = action.payload;
     });
 
     // Logout
@@ -59,7 +73,7 @@ const authSlice = createSlice({
       state.error = null;
     });
     builder.addCase(logout.fulfilled, (state) => {
-      state.user = { name: null, email: null };
+      state.user = null;
       state.token = null;
       state.isLoading = false;
       state.isLoggedIn = false;
@@ -68,20 +82,7 @@ const authSlice = createSlice({
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload || "Logout failed";
       state.isLoading = false;
-    });
-
-    // Token Refresh
-    builder.addCase(refresh.pending, (state) => {
-      state.isRefreshing = true;
-      state.error = null;
-    });
-    builder.addCase(refresh.fulfilled, (state, action) => {
-      state.token = action.payload.accessToken;
-      state.isRefreshing = false;
-    });
-    builder.addCase(refresh.rejected, (state, action) => {
-      state.error = action.payload || "Token refresh failed";
-      state.isRefreshing = false;
+      state.error = action.payload;
     });
   },
 });

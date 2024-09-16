@@ -21,7 +21,7 @@ export const addProduct = createAsyncThunk(
   async (product, { rejectWithValue, getState }) => {
     try {
       const state = getState();
-      const token = state.auth.token;
+      const token = localStorage.getItem("accessToken") || state.auth.token;
 
       if (!token) {
         throw new Error("No authentication token found.");
@@ -48,7 +48,7 @@ export const getDailyIntake = createAsyncThunk(
   async (body, { rejectWithValue, getState }) => {
     try {
       const state = getState();
-      const token = state.auth.token;
+      const token = localStorage.getItem("accessToken") || state.auth.token;
 
       const response = await axios.post(`${API_URL}/daily-intake`, body, {
         headers: {
@@ -69,24 +69,23 @@ export const getDailyIntake = createAsyncThunk(
     }
   }
 );
+
 export const getConsumedProducts = createAsyncThunk(
   "calories/getConsumedProducts",
   async (selectedDate, { rejectWithValue, getState }) => {
     try {
       const state = getState();
-      const token = state.auth.token;
+      const token = localStorage.getItem("accessToken") || state.auth.token;
 
       if (!token) {
-        throw new Error("No authentication token found.");
+        return rejectWithValue("No authentication token found.");
       }
 
       const currentDate = new Date().toISOString().split("T")[0];
       const dateToFetch = selectedDate || currentDate;
 
       const response = await axios.get(`${API_URL}/consumed-products`, {
-        params: {
-          date: dateToFetch,
-        },
+        params: { date: dateToFetch },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -95,13 +94,15 @@ export const getConsumedProducts = createAsyncThunk(
       const { consumedProducts } = response.data;
 
       if (!consumedProducts || consumedProducts.length === 0) {
-        throw new Error("No products found for the specified date.");
+        return rejectWithValue("No products found for the specified date.");
       }
 
       return consumedProducts;
     } catch (error) {
       return rejectWithValue(
-        error.response ? error.response.data.message : error.message
+        error.response?.data?.message ||
+          error.message ||
+          "Something went wrong."
       );
     }
   }
@@ -112,7 +113,7 @@ export const searchProducts = createAsyncThunk(
   async (query, { rejectWithValue, getState }) => {
     try {
       const state = getState();
-      const token = state.auth.token;
+      const token = localStorage.getItem("accessToken") || state.auth.token;
 
       if (!token) {
         throw new Error("No authentication token found.");
@@ -139,13 +140,13 @@ export const removeProduct = createAsyncThunk(
   async (productId, { rejectWithValue, getState }) => {
     try {
       const state = getState();
-      const token = state.auth.token;
+      const token = localStorage.getItem("accessToken") || state.auth.token;
 
       if (!token) {
         throw new Error("No authentication token found.");
       }
 
-      const response = await axios.delete(`${API_URL}/delete`, {
+      await axios.delete(`${API_URL}/delete`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

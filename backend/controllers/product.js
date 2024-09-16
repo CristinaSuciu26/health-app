@@ -55,7 +55,6 @@ export const getProducts = async (req, res) => {
 
 export const searchProducts = async (req, res) => {
   try {
-
     const { query } = req.query;
 
     if (!query) {
@@ -75,7 +74,6 @@ export const searchProducts = async (req, res) => {
 };
 
 export const addConsumedProducts = async (req, res) => {
-  console.log("Request Body:", req.body);
   try {
     const { productName, quantity } = req.body;
 
@@ -83,9 +81,7 @@ export const addConsumedProducts = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-
-
-    const currentDate = new Date()
+    const currentDate = new Date();
     const product = await ProductService.findProductByName(productName);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -100,7 +96,6 @@ export const addConsumedProducts = async (req, res) => {
 
     await consumedProduct.save();
 
-    // Calculate calories based on quantity
     const totalCalories = (product.calories / 100) * quantity;
 
     res.status(201).json({
@@ -146,8 +141,11 @@ export const deleteConsumedProduct = async (req, res) => {
 export const getConsumedProductsByDate = async (req, res) => {
   try {
     const { date } = req.query;
+    const userId = req.user.id;
     if (!date) {
-      return res.status(400).json({ message: "Date query parameter is required" });
+      return res
+        .status(400)
+        .json({ message: "Date query parameter is required" });
     }
 
     const parsedDate = new Date(date);
@@ -155,11 +153,11 @@ export const getConsumedProductsByDate = async (req, res) => {
       return res.status(400).json({ message: "Invalid date format" });
     }
 
-    
     const startOfDay = new Date(parsedDate.setHours(0, 0, 0, 0));
     const endOfDay = new Date(parsedDate.setHours(23, 59, 59, 999));
 
     const consumedProducts = await ConsumedProduct.find({
+      user: userId,
       date: {
         $gte: startOfDay,
         $lt: endOfDay,
@@ -170,7 +168,9 @@ export const getConsumedProductsByDate = async (req, res) => {
     });
 
     if (!consumedProducts.length) {
-      return res.status(200).json({ message: "No products found for the specified date" });
+      return res
+        .status(200)
+        .json({ message: "No products found for the specified date" });
     }
 
     res.status(200).json({ consumedProducts });
