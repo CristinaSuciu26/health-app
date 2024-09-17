@@ -14,6 +14,9 @@
   padding: 20px;
   border-radius: 10px;
   display: flex;
+  display: flex;
+  justify-content: center;
+  padding: 15px;
   flex-direction: column;
   align-items: center;
 }
@@ -90,13 +93,23 @@
   cursor: pointer;
   transition: all 235ms ease-in-out;
 }
+.loginBtnContainer {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
 @media screen and (min-width: 768px) {
   .loginTitle {
     text-align: left;
     padding-left: 25px;
   }
+  .loginBtnContainer {
+    padding: 0px;
+  }
   .btnContainer {
     display: flex;
+
+    gap: 15px;
   }
   .loginForm {
     align-items: baseline;
