@@ -7,7 +7,7 @@ import {
   getConsumedProductsByDate,
   searchProducts,
 } from "../controllers/product.js";
-  
+
 const router = express.Router();
 
 /**

@@ -96,8 +96,12 @@
   padding: 15px;
 }
 @media screen and (min-width: 768px) {
+  .registerBtnContainer {
+    padding: 0px;
+  }
   .btnContainer {
     display: flex;
+    gap: 15px;
   }
   .registerTitle {
     text-align: left;

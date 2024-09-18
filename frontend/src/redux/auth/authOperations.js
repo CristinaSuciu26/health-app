@@ -1,18 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { removeTokens, storeTokens } from "./tokenUtils";
 import axiosInstance from "../../api/apiConfig.js";
+import axios from "axios";
+
+export const setAuthHeader = (token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+};
+
+export const clearAuthHeader = () => {
+  delete axios.defaults.headers.common["Authorization"];
+};
 
 export const register = createAsyncThunk(
   "auth/register",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post(`/register`, userData);
-      const { accessToken, refreshToken } = response.data;
-
-      storeTokens(accessToken, refreshToken);
+      const response = await axiosInstance.post("/register", userData);
+      const { token } = response.data;
+      setAuthHeader(token);
+      localStorage.setItem("accessToken", token);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -21,37 +29,54 @@ export const login = createAsyncThunk(
   "auth/login",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post(`/login`, formData);
-      const { accessToken, refreshToken } = response.data;
-
-      storeTokens(accessToken, refreshToken);
+      const response = await axiosInstance.post("/login", formData);
+      const { accessToken } = response.data;
+      setAuthHeader(accessToken); // Set header
+      localStorage.setItem("accessToken", accessToken);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
 
-export const logout = createAsyncThunk(
-  "auth/logout",
-  async (_, { getState, rejectWithValue }) => {
-    const state = getState();
-    const accessToken = state.auth.token || localStorage.getItem("accessToken");
+export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    await axiosInstance.post("/logout", null, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    clearAuthHeader();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    return { message: "Logged out successfully" };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || error.message
+    );
+  }
+});
+
+export const refreshToken = createAsyncThunk(
+  "auth/refreshToken",
+  async (_, thunkAPI) => {
     try {
-      await axiosInstance.post(
-        `/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      removeTokens();
-      return { message: "Logged out successfully" };
+      const refreshToken = localStorage.getItem("refreshToken");
+      const response = await axios.post("/auth/refresh", { refreshToken });
+      const { token } = response.data;
+      setAuthHeader(token);
+      localStorage.setItem("accessToken", token);
+      return response.data;
     } catch (error) {
-      console.log("Error in logout asyncThunk:", error);
-      return rejectWithValue(error.response.data.message);
+      clearAuthHeader();
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
     }
   }
 );

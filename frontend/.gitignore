@@ -19,6 +19,21 @@
 .env.production.local
 
 
-npm-debug.log*
+npm-debug.log*# Node modules
+node_modules/
+
+# Build output
+build/
+
+# Environment files
+*.env
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# Cache
+.cache/
+
 yarn-debug.log*
 yarn-error.log*

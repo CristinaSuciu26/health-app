@@ -1,23 +1,10 @@
 import store from "../redux/store.js";
-import { removeTokens } from "../redux/auth/tokenUtils.js";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "./apiConfig.js";
-
-// Refresh token logic
-export const refresh = createAsyncThunk(
-  "auth/refresh",
-  async (_, { rejectWithValue }) => {
-    const refreshToken = localStorage.getItem("refreshToken");
-    try {
-      const response = await axiosInstance.post(`/refresh`, { refreshToken });
-      const { accessToken } = response.data;
-      localStorage.setItem("accessToken", accessToken);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data.message);
-    }
-  }
-);
+import axios from "axios";
+import {
+  clearAuthHeader,
+  refreshToken,
+} from "../redux/auth/authOperations.js";
 
 // Request interceptor for attaching the token to headers
 axiosInstance.interceptors.request.use(
@@ -32,27 +19,23 @@ axiosInstance.interceptors.request.use(
 );
 
 // Response interceptor for handling 401 errors and refreshing tokens
-axiosInstance.interceptors.response.use(
+axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const { status } = error.response || {};
-
-    if (status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const { dispatch } = store;
-
       try {
-        await dispatch(refresh()).unwrap();
+        await dispatch(refreshToken()).unwrap();
         const newToken = localStorage.getItem("accessToken");
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        return axiosInstance(originalRequest);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+        return axios(originalRequest);
       } catch (refreshError) {
-        removeTokens();
+        clearAuthHeader();
         return Promise.reject(refreshError);
       }
     }
-
     return Promise.reject(error);
   }
 );
