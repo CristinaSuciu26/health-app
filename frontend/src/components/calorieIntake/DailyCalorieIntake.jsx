@@ -5,6 +5,7 @@ import {
   selectConsumedProducts,
   selectSelectedDate,
 } from "../../redux/calorieIntake/calorieIntakeSelectors";
+import styles from "./DailyCalorieIntake.module.css";
 
 const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
     : "0";
 
   return (
-    <div>
+    <div className={styles.summaryContainer}>
       <h2>Summary for {formatDate(selectedDate)}</h2>
       <ul>
         <li>Left: {caloriesLeft ? `${caloriesLeft} kcal` : "0"}</li>

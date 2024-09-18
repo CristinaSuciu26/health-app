@@ -63,7 +63,7 @@ const DiaryAddProductForm = () => {
           value={grams}
           placeholder="Grams"
           onChange={handleGramsChange}
-          min="1" 
+          min="1"
         />
         <button type="submit">Add product</button>
       </form>

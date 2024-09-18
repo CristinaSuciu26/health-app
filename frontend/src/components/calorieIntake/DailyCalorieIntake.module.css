@@ -1,0 +1,14 @@
+.summaryContainer {
+  background-color: var(--color-muted);
+  width: 100%;
+  margin: 0 auto;
+}
+.summaryContainer h2 {
+  font-size: 14px;
+}
+.summaryContainer ul li {
+  font-size: 14px;
+}
+ul {
+  list-style-type: none;
+}

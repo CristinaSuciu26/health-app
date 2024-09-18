@@ -9,41 +9,61 @@ import bananaDesktop from "../../assets/images/banana-desktop.png";
 import strawberry from "../../assets/images/strawberry.png";
 import strawberryDesktop from "../../assets/images/strawberry-desktop.png";
 import DailyCaloriesForm from "../../components/caloriesForm/DailyCaloriesForm";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../redux/auth/authSelectors";
 
 const CalculatorPage = () => {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
   return (
     <div>
-      <DailyCaloriesForm />
-      <div className={styles.imagesContainer}>
-        <img className={styles.leafsImg} src={leafs} alt="leafs" />
-        <img
-          className={styles.leafsDesktopImg}
-          src={leafsDesktop}
-          alt="leafs"
-        />
-        <img className={styles.layerImg} src={layer} alt="layer" />
-        <img
-          className={styles.layerDesktopImg}
-          src={layerDesktop}
-          alt="layer"
-        />
-        <img className={styles.bananaImg} src={banana} alt="banana" />
-        <img
-          className={styles.bananaDesktopImg}
-          src={bananaDesktop}
-          alt="banana"
-        />
-        <img
-          className={styles.strawberryImg}
-          src={strawberry}
-          alt="strawberry"
-        />
-        <img
-          className={styles.strawberryDesktopImg}
-          src={strawberryDesktop}
-          alt="strawberry"
-        />
-      </div>
+      {isLoggedIn ? (
+        <>
+          <DailyCaloriesForm />
+          <div className={styles.LoggedInImg}>
+            <img className={styles.leafsImg} src={leafs} alt="leafs" />
+            <img
+              className={styles.leafsDesktopImg}
+              src={leafsDesktop}
+              alt="leafs"
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <DailyCaloriesForm />
+          <div className={styles.imagesContainer}>
+            <img className={styles.leafsImg} src={leafs} alt="leafs" />
+            <img
+              className={styles.leafsDesktopImg}
+              src={leafsDesktop}
+              alt="leafs"
+            />
+            <img className={styles.layerImg} src={layer} alt="layer" />
+            <img
+              className={styles.layerDesktopImg}
+              src={layerDesktop}
+              alt="layer"
+            />
+            <img className={styles.bananaImg} src={banana} alt="banana" />
+            <img
+              className={styles.bananaDesktopImg}
+              src={bananaDesktop}
+              alt="banana"
+            />
+            <img
+              className={styles.strawberryImg}
+              src={strawberry}
+              alt="strawberry"
+            />
+            <img
+              className={styles.strawberryDesktopImg}
+              src={strawberryDesktop}
+              alt="strawberry"
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };
