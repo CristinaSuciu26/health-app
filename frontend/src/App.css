@@ -19,6 +19,7 @@ code {
   --color-muted: #9b9faa; /* Muted text color */
   --color-text-primary: #212121; /* Primary text color */
   --color-shadow: #fc842d80; /* Shadow color with transparency */
+  --color-modal: #264061;
 }
 
 #root {

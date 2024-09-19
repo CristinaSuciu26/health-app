@@ -24,15 +24,17 @@ const UserInfo = () => {
 
   return (
     <nav>
-      <ul className={styles.navLinkContainer}>
-        <li className={styles.navLink}>
-          <p>{user?.name}</p>
-        </li>
-        <li className={styles.navLink}>
-          <button onClick={handleLogout}>Exit</button>
-        </li>
-      </ul>
       <RightSideBar />
+      <div className={styles.userInfoContainer}>
+        <ul className={styles.navLinkContainer}>
+          <li className={styles.navLink}>
+            <p>{user?.name}</p>
+          </li>
+          <li className={styles.navLink}>
+            <button onClick={handleLogout}>Exit</button>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };

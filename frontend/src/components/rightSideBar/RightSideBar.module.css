@@ -1,0 +1,55 @@
+.menuIcon {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.modalOverlay {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-modal);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modalContent ul li {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: "Verdana", sans-serif;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.closeButton {
+  position: absolute;
+  top: -42px;
+  right: 35px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+}
+.desktopLinks {
+  display: none;
+}
+@media screen and (min-width: 1280px) {
+  .menuIcon {
+    display: none;
+  }
+  .desktopLinks {
+    display: flex;
+    margin-top: 55px;
+  }
+  .desktopLinks li {
+    margin-right: 20px;
+  }
+  .desktopLinks ul {
+    display: flex;
+    margin: 0 auto;
+  }
+}
