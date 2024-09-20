@@ -42,27 +42,31 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
 
   return (
     <div className={styles.summaryContainer}>
-      <h2>Summary for {formatDate(selectedDate)}</h2>
-      <ul>
-        <li>Left: {caloriesLeft ? `${caloriesLeft} kcal` : "0"}</li>
-        <li>Consumed: {consumedCalories ? `${consumedCalories} kcal` : "0"}</li>
-        <li>Daily Rate: {calories ? `${calories} kcal` : "0"}</li>
-        <li>
-          {percentageOfNormal ? `${percentageOfNormal}% of normal` : "0%"}
-        </li>
-      </ul>
-      <h2>Food Not Recommended</h2>
-      <ul>
-        {dietRecommendations && dietRecommendations.length > 0 ? (
-          dietRecommendations.map((item, index) => (
-            <li key={item._id || index}>
-              {item.title} - {item.calories} kcal
-            </li>
-          ))
-        ) : (
-          <li>No food items to display</li>
-        )}
-      </ul>
+      <div className={styles.summaryContentWrapper}>
+        <h2>Summary for {formatDate(selectedDate)}</h2>
+        <ul>
+          <li>Left: {caloriesLeft ? `${caloriesLeft} kcal` : "0"}</li>
+          <li>
+            Consumed: {consumedCalories ? `${consumedCalories} kcal` : "0"}
+          </li>
+          <li>Daily Rate: {calories ? `${calories} kcal` : "0"}</li>
+          <li>
+            {percentageOfNormal ? `${percentageOfNormal}% of normal` : "0%"}
+          </li>
+        </ul>
+        <h2>Food Not Recommended</h2>
+        <ul>
+          {dietRecommendations && dietRecommendations.length > 0 ? (
+            dietRecommendations.map((item, index) => (
+              <li key={item._id || index}>
+                {item.title} - {item.calories} kcal
+              </li>
+            ))
+          ) : (
+            <li>No food items to display</li>
+          )}
+        </ul>
+      </div>
     </div>
   );
 };

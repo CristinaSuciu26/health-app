@@ -1,7 +1,7 @@
 .summaryContainer {
-  background-color: var(--color-muted);
-  width: 100%;
-  margin: 0 auto;
+  background-color: var(--color-background-secondary);
+  height: 100vh;
+  width: 380px;
 }
 .summaryContainer h2 {
   font-size: 14px;
@@ -11,4 +11,29 @@
 }
 ul {
   list-style-type: none;
+}
+.summaryContentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-right: 88px;
+}
+@media screen and (min-width: 768px) {
+  .summaryContainer {
+    width: 768px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .summaryContainer {
+    position: absolute;
+    width: 517px;
+    top: 0px;
+    right: 0px;
+    height: 842px;
+  }
+  .summaryContentWrapper {
+    padding-right: 0;
+  }
 }

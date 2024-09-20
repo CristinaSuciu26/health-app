@@ -5,7 +5,9 @@
 .strawberryImg,
 .layerDesktopImg,
 .bananaDesktopImg,
-.strawberryDesktopImg {
+.strawberryDesktopImg,
+.leafsLoggedTabletImg,
+.leafsLoggedDesktopImg {
   display: none;
 }
 
@@ -15,7 +17,13 @@
   display: flex;
   position: relative;
 }
+
 @media screen and (min-width: 768px) {
+  .leafsLoggedTabletImg {
+    display: block;
+    position: absolute;
+    top: 658px;
+  }
   .imagesContainer {
     min-height: 500px;
   }
@@ -59,7 +67,8 @@
   .layerImg,
   .bananaImg,
   .strawberryImg,
-  .leafsImg {
+  .leafsImg,
+  .leafsLoggedTabletImg {
     display: none;
   }
 
@@ -85,6 +94,12 @@
     display: block;
   }
 
+  .leafsLoggedDesktopImg {
+    position: absolute;
+    display: block;
+    top: 0px;
+    right: -245px;
+  }
   .bananaDesktopImg {
     display: block;
     position: absolute;

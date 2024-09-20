@@ -21,9 +21,13 @@ const CalculatorPage = () => {
         <>
           <DailyCaloriesForm />
           <div className={styles.LoggedInImg}>
-            <img className={styles.leafsImg} src={leafs} alt="leafs" />
             <img
-              className={styles.leafsDesktopImg}
+              className={styles.leafsLoggedTabletImg}
+              src={leafs}
+              alt="leafs"
+            />
+            <img
+              className={styles.leafsLoggedDesktopImg}
               src={leafsDesktop}
               alt="leafs"
             />

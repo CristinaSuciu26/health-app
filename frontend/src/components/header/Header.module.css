@@ -1,13 +1,11 @@
 .header {
   background-color: var(--color-secondary);
   color: var(--color-text-primary);
-  padding: 40px;
   text-align: center;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 2px solid rgb(224, 220, 220);
-  margin: 0 auto;
+  justify-content: center;
+  margin-left: 66px;
+  padding: 18px;
 }
 
 @media screen and (min-width: 768px) {
@@ -15,6 +13,7 @@
     justify-content: space-evenly;
     gap: 79px;
     width: 768px;
+    border-bottom: 2px solid rgb(224, 220, 220);
   }
 }
 

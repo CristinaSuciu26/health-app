@@ -83,98 +83,99 @@ const DailyCaloriesForm = () => {
 
   return (
     <div className={styles.dailyCaloriesContainer}>
-      <h2 className={styles.dailyCaloriesTitle}>
-        Calculate your daily calorie intake right now
-      </h2>
-      <form className={styles.dailyCaloriesForm} onSubmit={handleOpenModal}>
-        <div className={styles.formGroup}>
-          <input
-            type="text"
-            name="height"
-            placeholder="Height (cm) *"
-            value={height}
-            onChange={(e) => setHeight(e.target.value)}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <input
-            type="text"
-            name="age"
-            placeholder="Age *"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <input
-            type="text"
-            name="current-weight"
-            placeholder="Current weight (kg) *"
-            value={currentWeight}
-            onChange={(e) => setCurrentWeight(e.target.value)}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <input
-            type="text"
-            name="desired-weight"
-            placeholder="Desired weight (kg) *"
-            value={desiredWeight}
-            onChange={(e) => setDesiredWeight(e.target.value)}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Blood type *</label>
-          <div className={styles.radioGroup}>
-            <label className={styles.radioBtnContainer}>
-              <input
-                type="radio"
-                name="blood-type"
-                value="1"
-                checked={bloodType === "1"}
-                onChange={(e) => setBloodType(e.target.value)}
-              />
-              1
-            </label>
-            <label className={styles.radioBtnContainer}>
-              <input
-                type="radio"
-                name="blood-type"
-                value="2"
-                checked={bloodType === "2"}
-                onChange={(e) => setBloodType(e.target.value)}
-              />
-              2
-            </label>
-            <label className={styles.radioBtnContainer}>
-              <input
-                type="radio"
-                name="blood-type"
-                value="3"
-                checked={bloodType === "3"}
-                onChange={(e) => setBloodType(e.target.value)}
-              />
-              3
-            </label>
-            <label className={styles.radioBtnContainer}>
-              <input
-                type="radio"
-                name="blood-type"
-                value="4"
-                checked={bloodType === "4"}
-                onChange={(e) => setBloodType(e.target.value)}
-              />
-              4
-            </label>
+      <div className={styles.dailyCaloriesWrapper}>
+        <h2 className={styles.dailyCaloriesTitle}>
+          Calculate your daily calorie intake right now
+        </h2>
+        <form className={styles.dailyCaloriesForm} onSubmit={handleOpenModal}>
+          <div className={styles.formGroup}>
+            <input
+              type="text"
+              name="height"
+              placeholder="Height (cm) *"
+              value={height}
+              onChange={(e) => setHeight(e.target.value)}
+            />
           </div>
-        </div>
-        <div className={styles.btnContainer}>
-          <button type="submit" className={styles.losingWeightBtn}>
-            Start losing weight
-          </button>
-        </div>
-      </form>
-
+          <div className={styles.formGroup}>
+            <input
+              type="text"
+              name="age"
+              placeholder="Age *"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <input
+              type="text"
+              name="current-weight"
+              placeholder="Current weight (kg) *"
+              value={currentWeight}
+              onChange={(e) => setCurrentWeight(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <input
+              type="text"
+              name="desired-weight"
+              placeholder="Desired weight (kg) *"
+              value={desiredWeight}
+              onChange={(e) => setDesiredWeight(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label>Blood type *</label>
+            <div className={styles.radioGroup}>
+              <label className={styles.radioBtnContainer}>
+                <input
+                  type="radio"
+                  name="blood-type"
+                  value="1"
+                  checked={bloodType === "1"}
+                  onChange={(e) => setBloodType(e.target.value)}
+                />
+                1
+              </label>
+              <label className={styles.radioBtnContainer}>
+                <input
+                  type="radio"
+                  name="blood-type"
+                  value="2"
+                  checked={bloodType === "2"}
+                  onChange={(e) => setBloodType(e.target.value)}
+                />
+                2
+              </label>
+              <label className={styles.radioBtnContainer}>
+                <input
+                  type="radio"
+                  name="blood-type"
+                  value="3"
+                  checked={bloodType === "3"}
+                  onChange={(e) => setBloodType(e.target.value)}
+                />
+                3
+              </label>
+              <label className={styles.radioBtnContainer}>
+                <input
+                  type="radio"
+                  name="blood-type"
+                  value="4"
+                  checked={bloodType === "4"}
+                  onChange={(e) => setBloodType(e.target.value)}
+                />
+                4
+              </label>
+            </div>
+          </div>
+          <div className={styles.btnContainer}>
+            <button type="submit" className={styles.losingWeightBtn}>
+              Start losing weight
+            </button>
+          </div>
+        </form>
+      </div>
       {isLoggedIn ? (
         <DailyCalorieIntake
           calories={dailyIntake}

@@ -195,10 +195,11 @@ input[type="radio"]:checked:after {
     max-width: 1200px;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
-    max-width: 1200px;
+    display: flex;
   }
-
+.dailyCaloriesWrapper{
+  
+}
   .dailyCaloriesForm {
     width: 50%;
     max-width: none;
