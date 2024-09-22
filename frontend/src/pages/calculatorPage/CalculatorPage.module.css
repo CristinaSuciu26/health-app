@@ -10,8 +10,18 @@
 .leafsLoggedDesktopImg {
   display: none;
 }
-
+img {
+  max-width: 100%;
+  height: auto;
+}
 .imagesContainer {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+}
+
+.LoggedInImg {
   max-width: 100%;
   margin: 0 auto;
   display: flex;
@@ -22,11 +32,14 @@
   .leafsLoggedTabletImg {
     display: block;
     position: absolute;
-    top: 658px;
+    top: -526px;
+    right: 365px;
   }
-  .imagesContainer {
+  .imagesContainer,
+  .LoggedInImg {
     min-height: 500px;
   }
+
   .leafsImg {
     position: absolute;
     top: -70px;
@@ -58,25 +71,20 @@
 }
 
 @media screen and (min-width: 1280px) {
-  .imagesContainer {
+  .imagesContainer,
+  .LoggedInImg {
     max-width: 1200px;
     margin: 0 auto;
     justify-content: center;
     min-height: 40px;
   }
+
   .layerImg,
   .bananaImg,
   .strawberryImg,
   .leafsImg,
   .leafsLoggedTabletImg {
     display: none;
-  }
-
-  .imagesContainer {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   .leafsDesktopImg {
@@ -97,8 +105,8 @@
   .leafsLoggedDesktopImg {
     position: absolute;
     display: block;
-    top: 0px;
-    right: -245px;
+    top: -750px;
+    right: -296px;
   }
   .bananaDesktopImg {
     display: block;
