@@ -1,4 +1,4 @@
-.menuIcon {
+.menuButton {
   background: none;
   border: none;
   cursor: pointer;
@@ -49,15 +49,15 @@
 .desktopLinks {
   display: none;
 }
-.logoSideBar {
+.sidebarLogo {
   width: 159px;
   height: 44px;
 }
 .infoContainer {
   display: none;
 }
-.menuIconContainer {
-  margin-left: 124px;
+.menuButtonContainer {
+  margin-left: 191px;
   margin-top: 20px;
 }
 @media screen and (min-width: 768px) {
@@ -83,13 +83,14 @@
     color: var(--color-text-primary);
     font-weight: 700;
   }
-  .menuIconContainer {
-    margin-left: 183px;
-    margin-bottom: -15px;
+  .menuButtonContainer {
+    margin-left: 70px;
+    margin-bottom: -11px;
+    margin-top: 29px;
   }
 }
 @media screen and (min-width: 1280px) {
-  .menuIcon {
+  .menuButton {
     display: none;
   }
   .desktopLinks {

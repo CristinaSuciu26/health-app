@@ -1,3 +1,27 @@
+.navLinkContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 165px;
+  width: 100%;
+  max-width: 1280px;
+  justify-content: center;
+}
+.userInfoContainer {
+  background-color: var(--color-background-secondary);
+  max-width: 380px;
+  padding-left: 55px;
+  /* position: relative;
+  top: 28px;
+
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: end;
+  right: 56px;
+  margin-bottom: 20px; */
+}
+
 .navLink {
   font-family: Verdana, sans-serif;
   font-size: 14px;
@@ -21,34 +45,25 @@
   color: inherit;
 }
 
-.navLinkContainer {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-right: 10px;
-}
-.userInfoContainer {
-  background-color: var(--color-background-secondary);
-  position: relative;
-  top: 28px;
-  width: 320px;
-  display: flex;
-  height: 40px;
-  align-items: center;
-  justify-content: end;
-  right: 56px;
-  margin-bottom: 20px;
-}
 @media screen and (min-width: 768px) {
   .userInfoContainer {
     background-color: transparent;
-    top: -14px;
-    right: 89px;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .navLinkContainer {
+    margin-right: 0px;
   }
 }
 @media screen and (min-width: 1280px) {
   .userInfoContainer {
-    right: -666px;
     z-index: 2;
+  }
+  .wrapper {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 600px;
   }
 }

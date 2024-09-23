@@ -1,11 +1,11 @@
 .dailyCaloriesContainer {
   width: 100%;
-  max-width: 380px;
   padding-right: 75px;
-  box-sizing: border-box;
   margin: 0 auto;
 }
-
+.dailyCaloriesWrapper {
+  max-width: 380px;
+}
 .dailyCaloriesForm {
   background-color: var(--color-secondary);
   padding: 20px;
@@ -180,7 +180,7 @@ input[type="radio"]:checked:after {
     max-width: calc(50% - 20px);
   }
 
-  .dailyCaloriesContainer {
+  .dailyCaloriesWrapper {
     max-width: 768px;
   }
 }
@@ -192,14 +192,13 @@ input[type="radio"]:checked:after {
     margin-left: 300px;
   }
   .dailyCaloriesContainer {
-    max-width: 1200px;
     flex-direction: row;
     justify-content: space-between;
     display: flex;
   }
-.dailyCaloriesWrapper{
-  
-}
+  .dailyCaloriesWrapper {
+    max-width: 1280px;
+  }
   .dailyCaloriesForm {
     width: 50%;
     max-width: none;

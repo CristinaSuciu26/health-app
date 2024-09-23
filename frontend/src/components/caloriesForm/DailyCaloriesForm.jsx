@@ -175,20 +175,21 @@ const DailyCaloriesForm = () => {
             </button>
           </div>
         </form>
+
+        {isLoggedIn ? (
+          <DailyCalorieIntake
+            calories={dailyIntake}
+            dietRecommendations={products}
+          />
+        ) : (
+          <Modal
+            isVisible={isModalVisible}
+            onClose={handleCloseModal}
+            calories={dailyIntake}
+            dietRecommendations={products}
+          />
+        )}
       </div>
-      {isLoggedIn ? (
-        <DailyCalorieIntake
-          calories={dailyIntake}
-          dietRecommendations={products}
-        />
-      ) : (
-        <Modal
-          isVisible={isModalVisible}
-          onClose={handleCloseModal}
-          calories={dailyIntake}
-          dietRecommendations={products}
-        />
-      )}
     </div>
   );
 };

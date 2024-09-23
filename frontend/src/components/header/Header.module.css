@@ -4,25 +4,36 @@
   text-align: center;
   display: flex;
   justify-content: center;
-  margin-left: 66px;
-  padding: 18px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.headerContent {
+  display: flex;
+  max-width: 380px;
+  justify-content: center;
 }
 
 @media screen and (min-width: 768px) {
   .header {
     justify-content: space-evenly;
     gap: 79px;
-    width: 768px;
     border-bottom: 2px solid rgb(224, 220, 220);
+  }
+  .headerContent {
+    max-width: 768px;
+    gap: 216px;
   }
 }
 
 @media screen and (min-width: 1280px) {
   .header {
     border-bottom: none;
-    justify-content: left;
-    padding-top: 25px;
+    justify-content: flex-start;
+  }
+  .headerContent {
+    max-width: 1280px;
+    align-items: center;
     gap: 0px;
-    width: 1280px;
   }
 }

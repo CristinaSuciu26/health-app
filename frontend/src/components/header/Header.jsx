@@ -11,8 +11,10 @@ const Header = () => {
 
   return (
     <div className={styles.header}>
-      <LogoComponent />
-      {isLoggedIn ? <UserInfo /> : <Navigation />}
+      <div className={styles.headerContent}>
+        <LogoComponent />
+        {isLoggedIn ? <UserInfo /> : <Navigation />}
+      </div>
     </div>
   );
 };

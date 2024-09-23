@@ -4,9 +4,12 @@ import logo from "../../assets/images/logo/logo.svg";
 import logo2 from "../../assets/images/logo/logo2.svg";
 import Vector from "../../assets/images/logo/Vector.svg";
 import styles from "./Logo.module.css";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../redux/auth/authSelectors";
 
 const LogoComponent = () => {
   const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const handleMainPageClick = () => {
     navigate("/");
@@ -14,9 +17,13 @@ const LogoComponent = () => {
 
   return (
     <div className={styles.logoContainer} onClick={handleMainPageClick}>
-      <img className={styles.logo} src={logo2} alt="Logo" />
-      <img className={styles.logoMobile} src={logo} alt="Logo" />
-      <img className={styles.vector} src={Vector} alt="Logo" />
+      <img className={styles.primaryLogo} src={logo2} alt="Primary Logo" />
+      <img 
+        className={`${styles.secondaryLogo} ${isLoggedIn ? styles.loggedIn : styles.loggedOut}`}
+        src={logo}
+        alt="Logo"
+      />
+      <img className={styles.vectorIcon} src={Vector} alt="Vector" />
     </div>
   );
 };

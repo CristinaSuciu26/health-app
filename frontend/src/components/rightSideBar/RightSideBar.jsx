@@ -47,9 +47,9 @@ const RightSideBar = ({ user, handleLogout }) => {
 
   return (
     <div>
-      <div className={styles.menuIconContainer}>
+      <div className={styles.menuButtonContainer}>
         <button
-          className={styles.menuIcon}
+          className={styles.menuButton}
           aria-haspopup="true"
           aria-expanded={isModalOpen}
           onClick={openModal}
@@ -61,7 +61,7 @@ const RightSideBar = ({ user, handleLogout }) => {
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={handleClickOutside}>
           <div className={styles.modalHeader}>
-            <img className={styles.logoSideBar} src={logo2} alt="Logo" />
+            <img className={styles.sidebarLogo} src={logo2} alt="Logo" />
             <ul className={styles.infoContainer}>
               <li className={styles.userName}>
                 <p>{user?.name}</p>

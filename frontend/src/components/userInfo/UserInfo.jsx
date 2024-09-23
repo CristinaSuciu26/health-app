@@ -24,7 +24,7 @@ const UserInfo = () => {
   };
 
   return (
-    <nav>
+    <nav className={styles.wrapper}>
       <RightSideBar user={user} handleLogout={handleLogout} />
       <div className={styles.userInfoContainer}>
         <ul className={styles.navLinkContainer}>

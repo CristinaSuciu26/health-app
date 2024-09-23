@@ -20,18 +20,6 @@ const CalculatorPage = () => {
       {isLoggedIn ? (
         <>
           <DailyCaloriesForm />
-          <div className={styles.LoggedInImg}>
-            <img
-              className={styles.leafsLoggedTabletImg}
-              src={leafs}
-              alt="leafs"
-            />
-            <img
-              className={styles.leafsLoggedDesktopImg}
-              src={leafsDesktop}
-              alt="leafs"
-            />
-          </div>
         </>
       ) : (
         <>

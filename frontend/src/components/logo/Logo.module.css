@@ -1,26 +1,32 @@
-.logo {
+.primaryLogo {
   display: none;
 }
-.logoMobile {
+.secondaryLogo {
   width: 46px;
   height: 44px;
   padding-top: 5px;
 }
 
-.vector {
+.loggedIn {
+  margin-right: -143px;
+}
+
+.loggedOut {
+  margin-right: 14px;
+}
+.vectorIcon {
   display: none;
 }
 @media screen and (min-width: 768px) {
-  .logoMobile {
+  .secondaryLogo {
     display: none;
   }
   .logoContainer {
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding-bottom: 19px;
   }
-  .logo {
+  .primaryLogo {
     width: 162px;
     height: 44px;
     display: block;
@@ -29,14 +35,16 @@
 @media screen and (min-width: 1280px) {
   .logoContainer {
     display: flex;
+    padding-left: 29px;
+    padding-top: 13px;
   }
-  .logo {
+  .primaryLogo {
     width: 167px;
     height: 66px;
     padding-right: 12px;
   }
 
-  .vector {
+  .vectorIcon {
     display: inline-block;
     margin-top: 0;
     margin-left: 5px;
