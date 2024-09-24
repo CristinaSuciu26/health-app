@@ -11,7 +11,11 @@ const Header = () => {
 
   return (
     <div className={styles.header}>
-      <div className={styles.headerContent}>
+      <div
+        className={`${styles.headerContent} ${
+          isLoggedIn ? styles.loggedIn : styles.loggedOut
+        }`}
+      >
         <LogoComponent />
         {isLoggedIn ? <UserInfo /> : <Navigation />}
       </div>

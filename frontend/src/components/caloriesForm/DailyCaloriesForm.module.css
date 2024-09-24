@@ -1,20 +1,21 @@
 .dailyCaloriesContainer {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  padding-right: 75px;
-  margin: 0 auto;
 }
 .dailyCaloriesWrapper {
   max-width: 380px;
 }
 .dailyCaloriesForm {
   background-color: var(--color-secondary);
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 10px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 800px;
+  width: 71%;
+  padding-bottom: 30px;
   margin: 0 auto;
 }
 
@@ -24,9 +25,8 @@
   font-size: 18px;
   line-height: 1.4;
   color: var(--color-text-primary);
-  padding-left: 21px;
-  width: 100%;
   text-align: left;
+  padding-left: 50px;
 }
 
 .formGroup {
@@ -156,14 +156,13 @@ input[type="radio"]:checked:after {
     font-size: 34px;
     padding-top: 50px;
     width: 70%;
-    padding-left: 21px;
+    padding-left: 32px;
   }
 
   .dailyCaloriesForm {
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
-    max-width: 800px;
+    width: 90%;
     justify-content: space-between;
   }
 
@@ -191,13 +190,9 @@ input[type="radio"]:checked:after {
     margin-top: 0px;
     margin-left: 300px;
   }
-  .dailyCaloriesContainer {
-    flex-direction: row;
-    justify-content: space-between;
-    display: flex;
-  }
   .dailyCaloriesWrapper {
     max-width: 1280px;
+    margin-left: 10px;
   }
   .dailyCaloriesForm {
     width: 50%;
@@ -206,8 +201,7 @@ input[type="radio"]:checked:after {
   }
 
   .dailyCaloriesTitle {
-    padding-right: 31px;
+    padding-left: 10px;
     width: 50%;
-    padding-top: 100px;
   }
 }

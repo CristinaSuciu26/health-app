@@ -15,25 +15,25 @@
 }
 
 @media screen and (min-width: 768px) {
-  .header {
-    justify-content: space-evenly;
-    gap: 79px;
-    border-bottom: 2px solid rgb(224, 220, 220);
-  }
   .headerContent {
     max-width: 768px;
     gap: 216px;
+    justify-content: space-evenly;
+    border-bottom: 2px solid rgb(224, 220, 220);
   }
 }
 
 @media screen and (min-width: 1280px) {
-  .header {
-    border-bottom: none;
-    justify-content: flex-start;
+  .loggedOut {
+    margin-right: 797px;
+  }
+  .loggedIn {
+    margin-right: 100px;
   }
   .headerContent {
     max-width: 1280px;
     align-items: center;
     gap: 0px;
+    border-bottom: none;
   }
 }

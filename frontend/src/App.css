@@ -7,10 +7,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   overflow-x: hidden;
 }
-
+/* *,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -33,5 +38,5 @@ code {
   box-sizing: border-box;
   overflow-y: hidden;
   overflow-x: hidden;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
