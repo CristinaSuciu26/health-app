@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./DiaryAddProductForm.module.css";
 import { addProduct } from "../../redux/calorieIntake/calorieIntakeOperations";
@@ -12,12 +12,18 @@ import {
   selectProductName,
   selectSelectedDate,
 } from "../../redux/calorieIntake/calorieIntakeSelectors";
+import closeAddForm from "../../assets/images/logo/closeAddForm.svg";
+import addButton from "../../assets/images/logo/addButton.svg";
 
 const DiaryAddProductForm = () => {
   const dispatch = useDispatch();
   const productName = useSelector(selectProductName);
   const grams = useSelector(selectGrams);
   const selectedDate = useSelector(selectSelectedDate);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleProductNameChange = (e) => {
     dispatch(setProductName(e.target.value));
@@ -50,24 +56,48 @@ const DiaryAddProductForm = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={productName}
-          placeholder="Enter product name"
-          onChange={handleProductNameChange}
-        />
-        <input
-          type="number"
-          value={grams}
-          placeholder="Grams"
-          onChange={handleGramsChange}
-          min="1"
-        />
-        <button type="submit">Add product</button>
-      </form>
-    </div>
+    <>
+      <div className={styles.mobileForm}>
+        <button onClick={openModal} className={styles.addButton}>
+          <img src={addButton} alt="Add button" />
+        </button>
+        {isModalOpen && (
+          <>
+            <button
+              className={styles.closeButton}
+              onClick={closeModal}
+              aria-label="Close"
+            >
+              <img src={closeAddForm} alt="Close" />
+            </button>
+            <div className={styles.modalOverlay}>
+              <form onSubmit={handleSubmit} className={styles.addProductForm}>
+                <input
+                  type="text"
+                  value={productName}
+                  placeholder="Enter product name"
+                  onChange={handleProductNameChange}
+                />
+                <input
+                  type="number"
+                  value={grams}
+                  placeholder="Grams"
+                  onChange={handleGramsChange}
+                  min="1"
+                />
+                <button
+                  type="submit"
+                  className={styles.addProductBtn}
+                  onClick={openModal}
+                >
+                  Add product
+                </button>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

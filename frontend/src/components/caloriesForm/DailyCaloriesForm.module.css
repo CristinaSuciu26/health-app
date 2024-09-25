@@ -8,15 +8,14 @@
 }
 .dailyCaloriesForm {
   background-color: var(--color-secondary);
-  padding-top: 20px;
-  padding-right: 10px;
+  padding: 30px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 71%;
-  padding-bottom: 30px;
+  width: 79%;
   margin: 0 auto;
+  margin-bottom: 30px;
 }
 
 .dailyCaloriesTitle {

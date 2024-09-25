@@ -12,6 +12,7 @@ import {
   selectSelectedDate,
 } from "../../redux/calorieIntake/calorieIntakeSelectors";
 import DailyCalorieIntake from "../../components/calorieIntake/DailyCalorieIntake";
+import styles from "./DiaryPage.module.css";
 
 const DiaryPage = () => {
   const dispatch = useDispatch();
@@ -41,10 +42,16 @@ const DiaryPage = () => {
   const validProducts = products.filter((product) => product.id || product._id);
 
   return (
-    <div>
-      <DiaryDateCalendar onDateChange={handleDateChange} />
-      <DiaryAddProductForm selectedDate={selectedDate} />
-      <DiaryProductsList products={validProducts} selectedDate={selectedDate} />
+    <div className={styles.diaryPageContainer}>
+      <div className={styles.diaryPageContent}>
+        <DiaryDateCalendar onDateChange={handleDateChange} />
+        <DiaryAddProductForm selectedDate={selectedDate} />
+        <DiaryProductsList
+          products={validProducts}
+          selectedDate={selectedDate}
+        />
+      </div>
+
       <DailyCalorieIntake
         calories={dailyIntake}
         dietRecommendations={productsNotRecommended}

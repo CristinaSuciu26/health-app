@@ -1,0 +1,27 @@
+.diaryPageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.diaryPageContent {
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .diaryPageContent {
+    max-width: 768px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .diaryPageContent {
+    max-width: 1280px;
+  }
+  .calorieIntakeContainer {
+  }
+}

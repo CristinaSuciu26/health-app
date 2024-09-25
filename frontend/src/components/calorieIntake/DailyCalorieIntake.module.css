@@ -32,9 +32,9 @@ ul {
 }
 @media screen and (min-width: 1280px) {
   .summaryContainer {
-    position: relative;
-    top: -650px;
-    left: 800px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
     width: 514px;
     height: 100%;
   }
