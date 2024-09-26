@@ -1,6 +1,6 @@
 .modalOverlay {
   position: fixed;
-  top: 100px;
+  top: 0px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -11,12 +11,11 @@
   justify-content: center;
 }
 .closeButton {
-  position: absolute;
-  top: 69px;
-  left: 35px;
   border: none;
   cursor: pointer;
   background-color: transparent;
+  margin-top: -366px;
+  margin-right: -19px;
 }
 .addProductForm {
   display: flex;
@@ -69,6 +68,7 @@
   border-radius: 30px;
   cursor: pointer;
   transition: all 235ms ease-in-out;
+  margin: 25px;
 }
 .addProductBtn:hover,
 .addButton:hover {
@@ -76,7 +76,15 @@
   transform: translate3d(0, 2px, 0);
   box-shadow: 0px 4px 10px 0px var(--color-shadow);
 }
+.largerScreensForm {
+  display: none;
+}
 
 @media screen and (min-width: 768px) {
-
+  .mobileForm {
+    display: none;
+  }
+  .largerScreensForm {
+    display: block;
+  }
 }

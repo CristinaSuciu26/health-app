@@ -22,8 +22,25 @@ const DiaryAddProductForm = () => {
   const selectedDate = useSelector(selectSelectedDate);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = "";
+  };
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768 && isModalOpen) {
+        closeModal();
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isModalOpen]);
 
   const handleProductNameChange = (e) => {
     dispatch(setProductName(e.target.value));
@@ -57,20 +74,44 @@ const DiaryAddProductForm = () => {
 
   return (
     <>
+      <div className={styles.largerScreensForm}>
+        <form onSubmit={handleSubmit} className={styles.addProductForm}>
+          <input
+            type="text"
+            value={productName}
+            placeholder="Enter product name"
+            onChange={handleProductNameChange}
+          />
+          <input
+            type="number"
+            value={grams}
+            placeholder="Grams"
+            onChange={handleGramsChange}
+            min="1"
+          />
+          <button
+            onClick={openModal}
+            className={styles.addButton}
+            type="submit"
+          >
+            <img src={addButton} alt="Add button" />
+          </button>
+        </form>
+      </div>
       <div className={styles.mobileForm}>
         <button onClick={openModal} className={styles.addButton}>
           <img src={addButton} alt="Add button" />
         </button>
         {isModalOpen && (
           <>
-            <button
-              className={styles.closeButton}
-              onClick={closeModal}
-              aria-label="Close"
-            >
-              <img src={closeAddForm} alt="Close" />
-            </button>
             <div className={styles.modalOverlay}>
+              <button
+                className={styles.closeButton}
+                onClick={closeModal}
+                aria-label="Close"
+              >
+                <img src={closeAddForm} alt="Close" />
+              </button>
               <form onSubmit={handleSubmit} className={styles.addProductForm}>
                 <input
                   type="text"

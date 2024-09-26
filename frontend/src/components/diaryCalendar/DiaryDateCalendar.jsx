@@ -35,21 +35,23 @@ const DiaryDateCalendar = ({ onDateChange }) => {
 
   return (
     <div className={styles.calendarContainer}>
-      <h1>{formattedDate}</h1>
+      <div className={styles.calendarContent}>
+        <h1 className={styles.currentDate}>{formattedDate}</h1>
 
-      <button onClick={toggleCalendar}>
-        <IoCalendarNumberOutline />
-      </button>
+        <button onClick={toggleCalendar} className={styles.calendarBtn}>
+          <IoCalendarNumberOutline />
+        </button>
 
-      {isCalendarVisible && (
-        <div>
-          <Calendar
-            onChange={handleDateChange}
-            value={currentSelectedDate}
-            maxDate={new Date()}
-          />
-        </div>
-      )}
+        {isCalendarVisible && (
+          <div className={styles.calendar}>
+            <Calendar
+              onChange={handleDateChange}
+              value={currentSelectedDate}
+              maxDate={new Date()}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
