@@ -18,7 +18,7 @@ const DiaryProductsList = ({ products }) => {
   );
 
   return (
-    <div className={styles.listContainer}>
+    <div>
       <div className={styles.listContent}>
         <ul className={styles.productList}>
           {filteredProducts.length > 0 ? (

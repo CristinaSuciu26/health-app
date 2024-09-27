@@ -68,7 +68,10 @@
   border-radius: 30px;
   cursor: pointer;
   transition: all 235ms ease-in-out;
-  margin: 25px;
+  display: flex;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 .addProductBtn:hover,
 .addButton:hover {
@@ -86,5 +89,15 @@
   }
   .largerScreensForm {
     display: block;
+    margin-left: -9px;
+  }
+  .addProductForm {
+    flex-direction: row;
+    width: 70%;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .addProductForm {
+    width: 86%;
   }
 }
