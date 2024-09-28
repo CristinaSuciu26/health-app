@@ -200,7 +200,7 @@ input[type="radio"]:checked:after {
   }
 
   .dailyCaloriesTitle {
-    padding-left: 10px;
+    padding-left: 33px;
     width: 50%;
   }
 }
