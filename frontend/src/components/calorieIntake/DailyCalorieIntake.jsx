@@ -44,7 +44,7 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
     <div className={styles.summaryContainer}>
       <div className={styles.summaryContentWrapper}>
         <h2>Summary for {formatDate(selectedDate)}</h2>
-        <ul>
+        <ul className={styles.summaryList}>
           <li>Left: {caloriesLeft ? `${caloriesLeft} kcal` : "0"}</li>
           <li>
             Consumed: {consumedCalories ? `${consumedCalories} kcal` : "0"}

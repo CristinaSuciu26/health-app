@@ -18,6 +18,9 @@
 .summaryContainer h2 {
   font-size: 14px;
 }
+.summaryList li {
+  color: var(--color-muted);
+}
 .summaryContainer ul li {
   font-size: 14px;
 }
