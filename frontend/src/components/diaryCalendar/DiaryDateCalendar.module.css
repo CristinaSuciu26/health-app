@@ -2,7 +2,6 @@
   width: 100%;
 }
 .calendarContent {
-  max-width: 380px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -37,7 +36,6 @@
     line-height: 41.32px;
   }
   .calendarContent {
-    max-width: 768px;
     align-items: baseline;
     padding-left: 0px;
   }

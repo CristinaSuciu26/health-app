@@ -43,29 +43,51 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
   return (
     <div className={styles.summaryContainer}>
       <div className={styles.summaryContentWrapper}>
-        <h2>Summary for {formatDate(selectedDate)}</h2>
-        <ul className={styles.summaryList}>
-          <li>Left: {caloriesLeft ? `${caloriesLeft} kcal` : "0"}</li>
-          <li>
-            Consumed: {consumedCalories ? `${consumedCalories} kcal` : "0"}
-          </li>
-          <li>Daily Rate: {calories ? `${calories} kcal` : "0"}</li>
-          <li>
-            {percentageOfNormal ? `${percentageOfNormal}% of normal` : "0%"}
-          </li>
-        </ul>
-        <h2>Food Not Recommended</h2>
-        <ul>
-          {dietRecommendations && dietRecommendations.length > 0 ? (
-            dietRecommendations.map((item, index) => (
-              <li key={item._id || index}>
-                {item.title} - {item.calories} kcal
-              </li>
-            ))
-          ) : (
-            <li>No food items to display</li>
-          )}
-        </ul>
+        <div className={styles.dayDetails}>
+          <h2>Summary for {formatDate(selectedDate)}</h2>
+          <ul className={styles.summaryList}>
+            <li className={styles.summaryItem}>
+              <span className={styles.summaryListName}> Left: </span>
+
+              <span className={styles.percentage}>
+                {caloriesLeft ? `${caloriesLeft} kcal` : "0 kcal"}
+              </span>
+            </li>
+            <li className={styles.summaryItem}>
+              <span className={styles.summaryListName}> Consumed:</span>
+
+              <span className={styles.percentage}>
+                {consumedCalories ? `${consumedCalories} kcal` : "0 kcal"}
+              </span>
+            </li>
+            <li className={styles.summaryItem}>
+              <span className={styles.summaryListName}>Daily Rate:</span>
+
+              <span className={styles.percentage}>
+                {calories ? `${calories} kcal` : "0 kcal"}
+              </span>
+            </li>
+            <li className={styles.summaryItem}>
+              <span className={styles.summaryListName}> n% of normal:</span>
+
+              <span className={styles.percentage}>
+                {percentageOfNormal ? ` ${percentageOfNormal}%` : "0 %"}
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div className={styles.foodsToAvoid}>
+          <h2>Food Not Recommended</h2>
+          <ul className={styles.foodsList}>
+            {dietRecommendations && dietRecommendations.length > 0 ? (
+              dietRecommendations.map((item, index) => (
+                <li key={item._id || index}>{item.title}</li>
+              ))
+            ) : (
+              <li className={styles.noFoods}>No food items to display</li>
+            )}
+          </ul>
+        </div>
       </div>
     </div>
   );

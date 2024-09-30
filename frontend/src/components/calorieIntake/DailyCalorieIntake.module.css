@@ -1,3 +1,6 @@
+ul {
+  list-style-type: none;
+}
 .summaryContainer {
   background-color: var(--color-background-secondary);
   width: 100%;
@@ -8,29 +11,89 @@
   overflow-y: auto;
 }
 .summaryContentWrapper {
-  max-width: 380px;
-  padding-right: 88px;
   font-family: "Verdana", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  gap: 30px;
 }
+.dayDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.foodsToAvoid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 50px;
+}
+.foodsToAvoid h2 {
+  margin-left: 38px;
+}
+
+.summaryItem {
+  display: flex;
+  gap: 20px;
+}
+
+.summaryListName {
+  flex-basis: 60%;
+  padding-right: 20px;
+}
+.percentage {
+  flex-basis: 50%;
+}
+.noFoods {
+  padding-right: 45px;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 85%;
+  padding-right: 23px;
+  color: var(--color-muted);
+}
+
 .summaryContainer h2 {
   font-size: 14px;
-}
-.summaryList li {
-  color: var(--color-muted);
 }
 .summaryContainer ul li {
   font-size: 14px;
 }
-ul {
-  list-style-type: none;
-}
 
+.foodsList {
+  font-family: "Verdana", sans-serif;
+  color: var(--color-muted);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17.01px;
+
+  gap: 10px;
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 200px;
+}
 @media screen and (min-width: 768px) {
   .summaryContentWrapper {
-    max-width: 768px;
+    flex-direction: row;
+    align-items: baseline;
+  }
+  .foodsList {
+    max-height: 111px;
+    width: 65%;
+  }
+
+  .foodsToAvoid h2 {
+    padding-right: 66px;
+  }
+  .noFoods {
+    padding-right: 244px;
+    width: 100%;
   }
 }
 @media screen and (min-width: 1280px) {
@@ -41,7 +104,18 @@ ul {
     width: 514px;
     height: 100%;
   }
+  .summaryList {
+    padding-right: 64px;
+  }
   .summaryContentWrapper {
+    flex-direction: column;
+    align-items: center;
     padding-right: 0;
+  }
+  .dayDetails h2 {
+    padding-right: 73px;
+  }
+  .foodsToAvoid {
+    margin-left: 80px;
   }
 }
