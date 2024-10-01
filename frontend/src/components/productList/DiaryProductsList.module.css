@@ -58,6 +58,7 @@
 }
 .noProductMessage {
   width: 100%;
+  color: var(--color-muted);;
   padding-right: 158px;
 }
 .productGrams,

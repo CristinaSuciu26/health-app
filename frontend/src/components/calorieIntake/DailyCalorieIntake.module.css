@@ -27,8 +27,7 @@ ul {
 .foodsToAvoid {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-left: 50px;
+  margin-left: 45px;
 }
 .foodsToAvoid h2 {
   margin-left: 38px;
@@ -47,7 +46,7 @@ ul {
   flex-basis: 50%;
 }
 .noFoods {
-  padding-right: 45px;
+  padding-right: 108px;
 }
 
 .summaryList {
@@ -72,11 +71,12 @@ ul {
   font-weight: 400;
   font-size: 14px;
   line-height: 17.01px;
-
   gap: 10px;
   overflow: hidden;
   overflow-y: auto;
   max-height: 200px;
+  display: flex;
+  flex-direction: column;
 }
 @media screen and (min-width: 768px) {
   .summaryContentWrapper {
@@ -117,5 +117,6 @@ ul {
   }
   .foodsToAvoid {
     margin-left: 80px;
+    align-items: flex-start;
   }
 }
