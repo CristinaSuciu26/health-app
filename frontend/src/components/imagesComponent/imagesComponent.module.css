@@ -1,97 +1,74 @@
-.leafsImg,
-.layerImg,
-.bananaImg,
-.leafsDesktopImg,
-.strawberryImg,
-.layerDesktopImg,
-.bananaDesktopImg,
-.strawberryDesktopImg {
+.imagesContainer {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.imagesContainer {
   display: none;
 }
 
-.imagesContainer {
-  max-width: 100%;
-  margin: 0 auto;
-  display: flex;
-  position: relative;
-}
-
 @media screen and (min-width: 768px) {
+  /* Tablet-specific positioning */
   .imagesContainer {
-    min-height: 500px;
-  }
-
-  .leafsImg {
-    position: absolute;
-    top: -70px;
-    right: 80px;
     display: block;
-    z-index: 1;
+    max-width: 768px;
+  }
+  /* Leafs */
+  .image0 {
+    display: none;
+  }
+  /* Layer */
+  .image1 {
+    position: absolute;
+    bottom: -219px;
+    left: 410px;
   }
 
-  .layerImg {
+  /* Banana */
+  .image2 {
     position: absolute;
-    top: -90px;
+    bottom: -34px;
     right: 0px;
-    display: block;
   }
-
-  .bananaImg {
+  /* Strawberry */
+  .image3 {
     position: absolute;
-    top: 41px;
-    right: 0px;
-    display: block;
-  }
-
-  .strawberryImg {
-    position: absolute;
-    top: 25px;
-    right: 0px;
-    display: block;
+    bottom: -124px;
+    right: 106px;
   }
 }
 
 @media screen and (min-width: 1280px) {
+  /* Desktop-specific positioning  */
   .imagesContainer {
-    max-width: 1200px;
-    margin: 0 auto;
-    justify-content: center;
-    min-height: 40px;
+    max-width: 1400px;
   }
-
-  .layerImg,
-  .bananaImg,
-  .strawberryImg,
-  .leafsImg {
-    display: none;
-  }
-
-  .leafsDesktopImg {
-    right: 0px;
-    top: -708px;
+  /* Leafs */
+  .image0 {
     display: block;
+    z-index: 2;
     position: absolute;
-    z-index: 1;
+    bottom: -44px;
+    left: 539px;
+    top: -750px;
   }
-
-  .layerDesktopImg {
+  /* Layer */
+  .image1 {
     position: absolute;
-    top: -586px;
-    right: -85px;
-    display: block;
+    bottom: -14px;
+    left: 753px;
+    top: -662px;
   }
-
-  .bananaDesktopImg {
-    display: block;
+  /* Banana */
+  .image2 {
     position: absolute;
-    top: -586px;
-    right: -85px;
+    bottom: 142px;
+    left: 853px;
   }
-
-  .strawberryDesktopImg {
-    display: block;
+  /* Strawberry */
+  .image3 {
     position: absolute;
-    right: -26px;
-    top: -286px;
+    bottom: -58px;
+    right: 36px;
   }
 }
