@@ -9,40 +9,41 @@ import bananaDesktop from "../../assets/images/banana-desktop.png";
 import strawberry from "../../assets/images/strawberry.png";
 import strawberryDesktop from "../../assets/images/strawberry-desktop.png";
 import LoginForm from "../../components/loginForm/LoginForm.jsx";
+import ImagesComponent from "../../components/imagesComponent/imagesComponent.jsx";
 
 const LoginPage = () => {
+  const images = [
+    {
+      src: leafs,
+      srcDesktop: leafsDesktop,
+      alt: "Leafs",
+      className: `${styles.leafsLogin}`,
+    },
+    {
+      src: layer,
+      srcDesktop: layerDesktop,
+      alt: "Layer",
+      className: `${styles.layerLogin}`,
+    },
+    {
+      src: banana,
+      srcDesktop: bananaDesktop,
+      alt: "Banana",
+      className: `${styles.bananaLogin}`,
+    },
+    {
+      src: strawberry,
+      srcDesktop: strawberryDesktop,
+      alt: "Strawberry",
+      className: `${styles.strawberryLogin}`,
+    },
+  ];
+
   return (
     <div className={styles.loginContainer}>
-      <LoginForm />
-      <div className={styles.imagesContainer}>
-        <img className={styles.leafsImg} src={leafs} alt="leafs" />
-        <img
-          className={styles.leafsDesktopImg}
-          src={leafsDesktop}
-          alt="leafs"
-        />
-        <img className={styles.layerImg} src={layer} alt="layer" />
-        <img
-          className={styles.layerDesktopImg}
-          src={layerDesktop}
-          alt="layer"
-        />
-        <img className={styles.bananaImg} src={banana} alt="banana" />
-        <img
-          className={styles.bananaDesktopImg}
-          src={bananaDesktop}
-          alt="banana"
-        />
-        <img
-          className={styles.strawberryImg}
-          src={strawberry}
-          alt="strawberry"
-        />
-        <img
-          className={styles.strawberryDesktopImg}
-          src={strawberryDesktop}
-          alt="strawberry"
-        />
+      <div className={styles.loginContent}>
+        <LoginForm />
+        <ImagesComponent images={images} />
       </div>
     </div>
   );

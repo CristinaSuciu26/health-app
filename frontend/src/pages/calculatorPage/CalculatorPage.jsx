@@ -16,25 +16,36 @@ import strawberryDesktop from "../../assets/images/strawberry-desktop.png";
 const CalculatorPage = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const images = [
-    { src: leafs, srcDesktop: leafsDesktop, alt: "Leafs" },
-    { src: layer, srcDesktop: layerDesktop, alt: "Layer" },
-    { src: banana, srcDesktop: bananaDesktop, alt: "Banana" },
-    { src: strawberry, srcDesktop: strawberryDesktop, alt: "Strawberry" },
+    {
+      src: leafs,
+      srcDesktop: leafsDesktop,
+      alt: "Leafs",
+      className: `${styles.leafs}`,
+    },
+    {
+      src: layer,
+      srcDesktop: layerDesktop,
+      alt: "Layer",
+      className: `${styles.layer}`,
+    },
+    {
+      src: banana,
+      srcDesktop: bananaDesktop,
+      alt: "Banana",
+      className: `${styles.banana}`,
+    },
+    {
+      src: strawberry,
+      srcDesktop: strawberryDesktop,
+      alt: "Strawberry",
+      className: `${styles.strawberry}`,
+    },
   ];
-  // This is optional
-  // const positions = [
-  //   { top: "-90px", right: "80px", position: "absolute", zIndex: "2" },
-  //   { top: "0px", right: "0px", position: "absolute" },
-  //   { top: "-24px", right: "0px", position: "absolute" },
-  //   { top: "218px", right: "-26px", position: "absolute" },
-  // ];
 
   return (
     <div className={styles.calculatorPageContainer}>
       {isLoggedIn ? (
-        <>
-          <DailyCaloriesForm />
-        </>
+        <DailyCaloriesForm />
       ) : (
         <>
           <DailyCaloriesForm />

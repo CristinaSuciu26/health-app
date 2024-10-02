@@ -4,3 +4,63 @@
   width: 100%;
   justify-content: center;
 }
+.leafs {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .containerCalculatorPage {
+    display: block;
+    max-width: 768px;
+  }
+
+  .layer {
+    display: block;
+    position: absolute;
+    top: -203px;
+    left: 406px;
+  }
+
+  .banana {
+    display: block;
+    position: absolute;
+    right: 0px;
+  }
+
+  .strawberry {
+    display: block;
+    position: absolute;
+    top: -116px;
+    right: 25px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .leafs {
+    display: block;
+    z-index: 2;
+    position: absolute;
+    bottom: -44px;
+    left: 639px;
+    top: -750px;
+  }
+
+  .layer {
+    position: absolute;
+    top: -603px;
+
+    left: 753px;
+  }
+
+  .banana {
+    position: absolute;
+    bottom: 142px;
+    left: 853px;
+  }
+
+  .strawberry {
+    position: absolute;
+    top: -298px;
+    right: 36px;
+  }
+}

@@ -1,20 +1,3 @@
-.leafsImg,
-.layerImg,
-.bananaImg,
-.leafsDesktopImg,
-.strawberryImg,
-.layerDesktopImg,
-.bananaDesktopImg,
-.strawberryDesktopImg {
-  display: none;
-}
-
-.imagesContainer {
-  max-width: 100%;
-  margin: 0 auto;
-  display: flex;
-  position: relative;
-}
 .registerContainer {
   width: 100%;
   max-width: 380px;
@@ -25,81 +8,56 @@
   .registerContainer {
     max-width: 768px;
   }
-  .imagesContainer {
-    min-height: 500px;
-  }
-  .leafsImg {
-    position: absolute;
-    top: -207px;
-    right: 90px;
-    display: block;
-    z-index: 1;
+  .leafsRegister {
+    display: none;
   }
 
-  .layerImg {
+  .layerRegister {
     position: absolute;
-    top: -175px;
-    right: 0px;
-    display: block;
+    bottom: -380px;
+    left: 362px;
   }
 
-  .bananaImg {
+  .bananaRegister {
     position: absolute;
-    top: -45px;
-    right: 0px;
-    display: block;
+    top: 71px;
+    right: 43px;
   }
 
-  .strawberryImg {
+  .strawberryRegister {
     position: absolute;
-    top: -59px;
-    right: 0px;
-    display: block;
+    bottom: -124px;
+    right: 45px;
   }
 }
 @media screen and (min-width: 1280px) {
   .registerContainer {
     max-width: 1200px;
   }
-  .imagesContainer {
-    max-width: 1200px;
-    margin: 0 auto;
-    justify-content: center;
-    min-height: 210px;
-  }
-  .layerImg,
-  .bananaImg,
-  .strawberryImg,
-  .leafsImg {
-    display: none;
-  }
-
-  .leafsDesktopImg {
+  .leafsRegister {
+    display: block;
+    z-index: 2;
+    position: absolute;
+    top: -480px;
     right: 0px;
-    top: -468px;
-    display: block;
-    position: absolute;
-    z-index: 1;
   }
 
-  .layerDesktopImg {
+  .layerRegister {
     position: absolute;
-    top: -406px;
-    right: -85px;
-    display: block;
+    bottom: -14px;
+    left: 683px;
+    top: -420px;
   }
 
-  .bananaDesktopImg {
-    display: block;
+  .bananaRegister {
     position: absolute;
-    top: -386px;
-    right: -85px;
+    top: -444px;
+    left: 783px;
   }
 
-  .strawberryDesktopImg {
-    display: block;
+  .strawberryRegister {
     position: absolute;
-    right: -26px;
-    top: -106px;
+    top: -107px;
+    right: -90px;
   }
 }

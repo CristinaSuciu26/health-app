@@ -1,105 +1,67 @@
-.leafsImg,
-.layerImg,
-.bananaImg,
-.leafsDesktopImg,
-.strawberryImg,
-.layerDesktopImg,
-.bananaDesktopImg,
-.strawberryDesktopImg {
-  display: none;
-}
-
-.imagesContainer {
-  max-width: 100%;
-  margin: 0 auto;
-  display: flex;
-  position: relative;
-}
 .loginContainer {
   width: 100%;
   max-width: 380px;
   box-sizing: border-box;
   margin: 0 auto;
 }
+
 @media screen and (min-width: 768px) {
   .loginContainer {
     max-width: 768px;
   }
-  .imagesContainer {
-    min-height: 500px;
-  }
-  .leafsImg {
-    position: absolute;
-    top: -207px;
-    right: 90px;
-    display: block;
-    z-index: 1;
+
+  .leafsLogin {
+    display: none;
   }
 
-  .layerImg {
+  .layerLogin {
     position: absolute;
-    top: -175px;
-    right: 0px;
-    display: block;
+    bottom: -380px;
+    left: 362px;
   }
 
-  .bananaImg {
+  .bananaLogin {
     position: absolute;
-    top: -45px;
-    right: 0px;
-    display: block;
+    top: 71px;
+    right: 43px;
   }
 
-  .strawberryImg {
+  .strawberryLogin {
     position: absolute;
-    top: -59px;
-    right: 0px;
-    display: block;
+    bottom: -124px;
+    right: 45px;
   }
 }
+
 @media screen and (min-width: 1280px) {
   .loginContainer {
     max-width: 1200px;
   }
-  .imagesContainer {
-    max-width: 1200px;
-    margin: 0 auto;
-    justify-content: center;
-    min-height: 290px;
-  }
-  .layerImg,
-  .bananaImg,
-  .strawberryImg,
-  .leafsImg {
-    display: none;
-  }
 
-  .leafsDesktopImg {
+  .leafsLogin {
+    display: block;
+    z-index: 2;
+    position: absolute;
+    top: -413px;
     right: 0px;
-    top: -401px;
-    display: block;
-    position: absolute;
-    z-index: 1;
   }
 
-  .layerDesktopImg {
+  .layerLogin {
     position: absolute;
-    top: -339px;
-    right: -85px;
-    display: block;
+    bottom: -14px;
+    left: 683px;
+    top: -353px;
   }
 
-  .bananaDesktopImg {
-    display: block;
+  .bananaLogin {
     position: absolute;
-    top: -319px;
-    right: -85px;
+    top: -377px;
+    left: 783px;
   }
 
-  .strawberryDesktopImg {
-    display: block;
+  .strawberryLogin {
     position: absolute;
-    right: -26px;
-    top: -39px;
+    top: -40px;
+    right: -90px;
   }
 }

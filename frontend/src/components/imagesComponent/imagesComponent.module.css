@@ -8,67 +8,14 @@
 }
 
 @media screen and (min-width: 768px) {
-  /* Tablet-specific positioning */
   .imagesContainer {
     display: block;
     max-width: 768px;
   }
-  /* Leafs */
-  .image0 {
-    display: none;
-  }
-  /* Layer */
-  .image1 {
-    position: absolute;
-    bottom: -219px;
-    left: 410px;
-  }
-
-  /* Banana */
-  .image2 {
-    position: absolute;
-    bottom: -34px;
-    right: 0px;
-  }
-  /* Strawberry */
-  .image3 {
-    position: absolute;
-    bottom: -124px;
-    right: 106px;
-  }
 }
 
 @media screen and (min-width: 1280px) {
-  /* Desktop-specific positioning  */
   .imagesContainer {
     max-width: 1400px;
-  }
-  /* Leafs */
-  .image0 {
-    display: block;
-    z-index: 2;
-    position: absolute;
-    bottom: -44px;
-    left: 539px;
-    top: -750px;
-  }
-  /* Layer */
-  .image1 {
-    position: absolute;
-    bottom: -14px;
-    left: 753px;
-    top: -662px;
-  }
-  /* Banana */
-  .image2 {
-    position: absolute;
-    bottom: 142px;
-    left: 853px;
-  }
-  /* Strawberry */
-  .image3 {
-    position: absolute;
-    bottom: -58px;
-    right: 36px;
   }
 }
