@@ -18,7 +18,9 @@ const Header = () => {
       >
         <LogoComponent />
         {isLoggedIn ? <UserInfo /> : <Navigation />}
+   
       </div>
+     
     </div>
   );
 };
