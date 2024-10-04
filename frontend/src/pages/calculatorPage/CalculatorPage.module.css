@@ -9,11 +9,6 @@
 }
 
 @media screen and (min-width: 768px) {
-  .containerCalculatorPage {
-    display: block;
-    max-width: 768px;
-  }
-
   .layer {
     display: block;
     position: absolute;

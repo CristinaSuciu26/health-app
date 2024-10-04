@@ -1,4 +1,4 @@
-import { login, logout, register, refreshToken } from "./authOperations.js";
+import { login, logout, register, refreshUserToken } from "./authOperations.js";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -27,7 +27,6 @@ const authSlice = createSlice({
     builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
-      state.token = action.payload.token;
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Registration successful!";
@@ -55,16 +54,20 @@ const authSlice = createSlice({
     });
 
     // Token Refresh
-    builder.addCase(refreshToken.pending, (state) => {
+    builder.addCase(refreshUserToken.pending, (state) => {
       state.isRefreshing = true;
     });
-    builder.addCase(refreshToken.fulfilled, (state, action) => {
-      state.token = action.payload.token;
+    builder.addCase(refreshUserToken.fulfilled, (state, action) => {
+      state.token = action.payload.accessToken; // Make sure you get the correct property name
+      state.user = action.payload.user || state.user; // Maintain user data if not provided
       state.isRefreshing = false;
     });
-    builder.addCase(refreshToken.rejected, (state, action) => {
+    builder.addCase(refreshUserToken.rejected, (state, action) => {
       state.isRefreshing = false;
       state.error = action.payload;
+      state.user = null;
+      state.token = null;
+      state.isLoggedIn = false;
     });
 
     // Logout

@@ -14,22 +14,14 @@ ul {
   font-family: "Verdana", sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-top: 40px;
   margin-bottom: 40px;
+  padding: 30px;
   gap: 30px;
 }
-.dayDetails {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.foodsToAvoid {
-  display: flex;
-  flex-direction: column;
-  margin-left: 45px;
-}
-.foodsToAvoid h2 {
+
+.foodsToAvoid h2,
+.dayDetails h2 {
   margin-left: 38px;
 }
 
@@ -58,9 +50,7 @@ ul {
   color: var(--color-muted);
 }
 
-.summaryContainer h2 {
-  font-size: 14px;
-}
+.summaryContainer h2,
 .summaryContainer ul li {
   font-size: 14px;
 }
@@ -104,19 +94,16 @@ ul {
     width: 514px;
     height: 100%;
   }
-  .summaryList {
-    padding-right: 64px;
-  }
+
   .summaryContentWrapper {
     flex-direction: column;
     align-items: center;
-    padding-right: 0;
   }
   .dayDetails h2 {
     padding-right: 73px;
   }
   .foodsToAvoid {
-    margin-left: 80px;
+    margin-left: 75px;
     align-items: flex-start;
   }
 }

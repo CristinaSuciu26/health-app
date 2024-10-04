@@ -84,7 +84,9 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
                 <li key={item._id || index}>{item.title}</li>
               ))
             ) : (
-              <li className={styles.noFoods}>No food items to display</li>
+              <li className={styles.noFoods}>
+                Your diet will be displayed here
+              </li>
             )}
           </ul>
         </div>

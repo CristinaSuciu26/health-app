@@ -45,7 +45,7 @@ const DiaryPage = () => {
     <div className={styles.diaryPageContainer}>
       <div className={styles.diaryPageContent}>
         <DiaryDateCalendar onDateChange={handleDateChange} />
-        <div className={styles.addProductContent}> 
+        <div className={styles.addProductContent}>
           <DiaryProductsList
             products={validProducts}
             selectedDate={selectedDate}

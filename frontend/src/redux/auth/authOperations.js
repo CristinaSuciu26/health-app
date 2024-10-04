@@ -15,9 +15,10 @@ export const register = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/register", userData);
-      const { token } = response.data;
-      setAuthHeader(token);
-      localStorage.setItem("accessToken", token);
+      const { accessToken, refreshToken } = response.data;
+      setAuthHeader(accessToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -30,9 +31,10 @@ export const login = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/login", formData);
-      const { accessToken } = response.data;
-      setAuthHeader(accessToken); // Set header
+      const { accessToken, refreshToken } = response.data;
+      setAuthHeader(accessToken);
       localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -60,17 +62,23 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   }
 });
 
-export const refreshToken = createAsyncThunk(
+export const refreshUserToken = createAsyncThunk(
   "auth/refreshToken",
   async (_, thunkAPI) => {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
-      const response = await axios.post("/auth/refresh", { refreshToken });
-      const { token } = response.data;
-      setAuthHeader(token);
-      localStorage.setItem("accessToken", token);
+
+      if (!refreshToken) {
+        throw new Error("No refresh token available");
+      }
+      const response = await axiosInstance.post("/refresh", { refreshToken });
+
+      const { accessToken } = response.data;
+      setAuthHeader(accessToken);
+      localStorage.setItem("accessToken", accessToken);
       return response.data;
     } catch (error) {
+      console.error("Error refreshing token:", error);
       clearAuthHeader();
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
