@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/health-app/static/css/main.9f54af8f.css",
-    "main.js": "/health-app/static/js/main.ea9f782d.js",
+    "main.css": "/health-app/static/css/main.6f9559c2.css",
+    "main.js": "/health-app/static/js/main.0b4d124e.js",
     "static/js/453.8ab44547.chunk.js": "/health-app/static/js/453.8ab44547.chunk.js",
     "static/media/strawberry-desktop.png": "/health-app/static/media/strawberry-desktop.987e115decab9c3b1546.png",
     "static/media/banana-desktop.png": "/health-app/static/media/banana-desktop.6ecc29ed702aa64a9861.png",
@@ -17,12 +17,12 @@
     "static/media/closeAddForm.svg": "/health-app/static/media/closeAddForm.24ce6b342eecfc3ce7e0b459a70fddbb.svg",
     "static/media/menu.svg": "/health-app/static/media/menu.ad1b9ef925490361f5d1248d4b29075f.svg",
     "static/media/Vector.svg": "/health-app/static/media/Vector.f15d92c7fd534cd0f23d32b0c224b649.svg",
-    "main.9f54af8f.css.map": "/health-app/static/css/main.9f54af8f.css.map",
-    "main.ea9f782d.js.map": "/health-app/static/js/main.ea9f782d.js.map",
+    "main.6f9559c2.css.map": "/health-app/static/css/main.6f9559c2.css.map",
+    "main.0b4d124e.js.map": "/health-app/static/js/main.0b4d124e.js.map",
     "453.8ab44547.chunk.js.map": "/health-app/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9f54af8f.css",
-    "static/js/main.ea9f782d.js"
+    "static/css/main.6f9559c2.css",
+    "static/js/main.0b4d124e.js"
   ]
 }
