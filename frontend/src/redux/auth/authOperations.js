@@ -71,7 +71,7 @@ export const refreshUserToken = createAsyncThunk(
       if (!refreshToken) {
         throw new Error("No refresh token available");
       }
-      const response = await axiosInstance.post("/refresh", { refreshToken });
+      const response = await axiosInstance.post("/refresh", { refreshToken }, { withCredentials: true });
 
       const { accessToken } = response.data;
       setAuthHeader(accessToken);

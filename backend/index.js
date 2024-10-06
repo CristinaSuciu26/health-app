@@ -23,7 +23,13 @@ connectDB();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger)); // Logging HTTP requests
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3001", // specify the origin here
+  credentials: true, // allow credentials (cookies, authorization headers)
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // Middleware for logging request body

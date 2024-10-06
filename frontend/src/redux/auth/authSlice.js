@@ -6,7 +6,8 @@ const initialState = {
     name: null,
     email: null,
   },
-  token: null,
+  accessToken: null,
+  refreshToken: null,
   isLoggedIn: false,
   isLoading: false,
   isRefreshing: false,
@@ -26,7 +27,8 @@ const authSlice = createSlice({
     });
     builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Registration successful!";
@@ -43,10 +45,13 @@ const authSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Login successful!";
+      localStorage.setItem("accessToken", action.payload.accessToken);
+      localStorage.setItem("refreshToken", action.payload.refreshToken);
     });
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;
@@ -58,18 +63,20 @@ const authSlice = createSlice({
       state.isRefreshing = true;
     });
     builder.addCase(refreshUserToken.fulfilled, (state, action) => {
-      state.token = action.payload.accessToken; // Make sure you get the correct property name
-      state.user = action.payload.user || state.user; // Maintain user data if not provided
+      state.accessToken = action.payload.accessToken;
       state.isRefreshing = false;
+      localStorage.setItem("accessToken", action.payload.accessToken);
+      localStorage.setItem("refreshToken", action.payload.refreshToken);
     });
     builder.addCase(refreshUserToken.rejected, (state, action) => {
       state.isRefreshing = false;
       state.error = action.payload;
-      state.user = null;
-      state.token = null;
+      state.accessToken = null;
       state.isLoggedIn = false;
+      // Clear tokens if refresh fails
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     });
-
     // Logout
     builder.addCase(logout.pending, (state) => {
       state.isLoading = true;
