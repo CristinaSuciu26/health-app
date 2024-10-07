@@ -1,3 +1,11 @@
+import {
+  getAccessToken,
+  getRefreshToken,
+  removeAccessToken,
+  removeRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from "../../utils/tokenUtils.js";
 import { login, logout, register, refreshUserToken } from "./authOperations.js";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -6,9 +14,9 @@ const initialState = {
     name: null,
     email: null,
   },
-  accessToken: null,
-  refreshToken: null,
-  isLoggedIn: false,
+  accessToken: getAccessToken(),
+  refreshToken: getRefreshToken(),
+  isLoggedIn: !!getAccessToken(),
   isLoading: false,
   isRefreshing: false,
   error: null,
@@ -32,6 +40,8 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Registration successful!";
+      setAccessToken(action.payload.accessToken);
+      setRefreshToken(action.payload.refreshToken);
     });
     builder.addCase(register.rejected, (state, action) => {
       state.isLoading = false;
@@ -50,8 +60,8 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Login successful!";
-      localStorage.setItem("accessToken", action.payload.accessToken);
-      localStorage.setItem("refreshToken", action.payload.refreshToken);
+      setAccessToken(action.payload.accessToken);
+      setRefreshToken(action.payload.refreshToken);
     });
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;
@@ -65,17 +75,14 @@ const authSlice = createSlice({
     builder.addCase(refreshUserToken.fulfilled, (state, action) => {
       state.accessToken = action.payload.accessToken;
       state.isRefreshing = false;
-      localStorage.setItem("accessToken", action.payload.accessToken);
-      localStorage.setItem("refreshToken", action.payload.refreshToken);
+      setAccessToken(action.payload.accessToken);
+      setRefreshToken(action.payload.refreshToken);
     });
     builder.addCase(refreshUserToken.rejected, (state, action) => {
       state.isRefreshing = false;
       state.error = action.payload;
       state.accessToken = null;
       state.isLoggedIn = false;
-      // Clear tokens if refresh fails
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
     });
     // Logout
     builder.addCase(logout.pending, (state) => {
@@ -84,10 +91,13 @@ const authSlice = createSlice({
     });
     builder.addCase(logout.fulfilled, (state) => {
       state.user = null;
-      state.token = null;
-      state.isLoading = false;
+      state.accessToken = null;
+      state.refreshToken = null;
       state.isLoggedIn = false;
+      state.isLoading = false;
       state.success = "Logout successful!";
+      removeAccessToken();
+      removeRefreshToken();
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload || "Logout failed";
