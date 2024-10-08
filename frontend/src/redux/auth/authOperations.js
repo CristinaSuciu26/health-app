@@ -67,25 +67,25 @@ export const refreshUserToken = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
-
+      console.log("Received refresh token:", refreshToken);
       if (!refreshToken) {
         throw new Error("No refresh token available");
       }
-      const response = await axiosInstance.post(
-        "/refresh",
-        { refreshToken },
-        { withCredentials: true }
-      );
+      const response = await axiosInstance.post("/refresh", { refreshToken });
 
       const { accessToken } = response.data;
       setAuthHeader(accessToken);
       localStorage.setItem("accessToken", accessToken);
+      console.log("Received refresh token request with token:", refreshToken);
+
       return response.data;
     } catch (error) {
       console.error("Error refreshing token:", error);
       clearAuthHeader();
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+
+      thunkAPI.dispatch({ type: "auth/logout" });
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
       );

@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY;
+const ACCESS_TOKEN_EXPIRATION = "10s";
+const REFRESH_TOKEN_EXPIRATION = "1m";
 
 if (!SECRET_KEY) {
   throw new Error("SECRET_KEY must be defined in the environment variables.");
@@ -35,10 +37,10 @@ export const registerUser = async (req, res) => {
 
     // Generate tokens
     const accessToken = jwt.sign({ id: newUser._id }, SECRET_KEY, {
-      expiresIn: "15m",
+      expiresIn: ACCESS_TOKEN_EXPIRATION,
     });
     const refreshToken = jwt.sign({ id: newUser._id }, SECRET_KEY, {
-      expiresIn: "7d",
+      expiresIn: REFRESH_TOKEN_EXPIRATION,
     });
 
     await UserService.updateUserToken(newUser._id, accessToken, refreshToken);
@@ -77,10 +79,10 @@ export const loginUser = async (req, res) => {
     }
 
     const accessToken = jwt.sign({ id: existingUser._id }, SECRET_KEY, {
-      expiresIn: "15m",
+      expiresIn: ACCESS_TOKEN_EXPIRATION,
     });
     const refreshToken = jwt.sign({ id: existingUser._id }, SECRET_KEY, {
-      expiresIn: "7d",
+      expiresIn: REFRESH_TOKEN_EXPIRATION,
     });
 
     await UserService.updateUserToken(existingUser._id, accessToken);
@@ -105,12 +107,14 @@ export const loginUser = async (req, res) => {
 export const refreshToken = async (req, res) => {
   try {
     const { refreshToken } = req.body;
+    console.log("Received refresh token:", refreshToken); 
 
     if (!refreshToken) {
       return res.status(403).send("No refresh token provided");
     }
 
     const tokenDoc = await UserService.findRefreshToken(refreshToken);
+    console.log("Token Document:", tokenDoc); 
 
     if (!tokenDoc || new Date() > tokenDoc.expiresAt) {
       return res.status(403).send("Invalid or expired refresh token");
@@ -118,7 +122,9 @@ export const refreshToken = async (req, res) => {
 
     const { id } = jwt.verify(refreshToken, SECRET_KEY);
 
-    const newAccessToken = jwt.sign({ id }, SECRET_KEY, { expiresIn: "15m" });
+    const newAccessToken = jwt.sign({ id }, SECRET_KEY, {
+      expiresIn: ACCESS_TOKEN_EXPIRATION,
+    });
 
     res.json({ accessToken: newAccessToken });
   } catch (error) {
@@ -135,7 +141,7 @@ export const logoutUser = async (req, res) => {
     await UserService.updateUserToken(userId, null);
     await UserService.deleteRefreshToken(token);
 
-    res.status(200).json({ message: "Successfully logged out" });
+    res.status(204).send();
   } catch (error) {
     console.error("Error processing user logout request:", error);
     res.status(500).json({ message: "Internal server error" });

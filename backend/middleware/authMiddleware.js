@@ -18,11 +18,15 @@ const authMiddleware = async (req, res, next) => {
     const user = await UserService.getUserById(decoded.id);
 
     if (!user) {
-      return res.status(401).json({ message: "Not authorized - User not found" });
+      return res
+        .status(401)
+        .json({ message: "Not authorized - User not found" });
     }
 
     if (user.token !== token) {
-      return res.status(401).json({ message: "Not authorized - Token mismatch" });
+      return res
+        .status(401)
+        .json({ message: "Not authorized - Token mismatch" });
     }
 
     req.user = user;
