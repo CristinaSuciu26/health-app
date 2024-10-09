@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/apiConfig.js";
 import axios from "axios";
+import { getRefreshToken } from "../../utils/tokenUtils.js";
 
 export const setAuthHeader = (token) => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -66,26 +67,17 @@ export const refreshUserToken = createAsyncThunk(
   "auth/refreshToken",
   async (_, thunkAPI) => {
     try {
-      const refreshToken = localStorage.getItem("refreshToken");
-      console.log("Received refresh token:", refreshToken);
+      const refreshToken = getRefreshToken();
       if (!refreshToken) {
-        throw new Error("No refresh token available");
+        return thunkAPI.rejectWithValue("No refresh token available");
       }
-      const response = await axiosInstance.post("/refresh", { refreshToken });
 
+      const response = await axiosInstance.post("/auth/refresh", {
+        refreshToken,
+      });
       const { accessToken } = response.data;
-      setAuthHeader(accessToken);
-      localStorage.setItem("accessToken", accessToken);
-      console.log("Received refresh token request with token:", refreshToken);
-
-      return response.data;
+      return { accessToken };
     } catch (error) {
-      console.error("Error refreshing token:", error);
-      clearAuthHeader();
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-
-      thunkAPI.dispatch({ type: "auth/logout" });
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
       );

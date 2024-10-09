@@ -1,4 +1,5 @@
-import { refreshUserToken } from "../redux/auth/authOperations";
+import axios from "axios";
+import { logout, refreshUserToken } from "../redux/auth/authOperations";
 import store from "../redux/store";
 import axiosInstance from "./apiConfig";
 // Add request interceptor to include the access token in the headers
@@ -17,31 +18,27 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Add response interceptor to handle token expiration and logout
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response; // Return the response as is
-  },
+  (response) => response,
   async (error) => {
-    console.error("Response error:", error.response);
     const originalRequest = error.config;
 
-    // Handle token expiration (401 Unauthorized)
     if (error.response.status === 401 && !originalRequest._retry) {
-      console.log("Token expired, attempting to refresh...");
-      originalRequest._retry = true; // Mark the request as retried
+      originalRequest._retry = true;
 
       try {
-        // Attempt to refresh the token
-        console.log("Attempting to refresh token...");
-        await store.dispatch(refreshUserToken());
-        console.log("Token refreshed successfully");
+        // Dispatch the refresh token action
+        const result = await store.dispatch(refreshUserToken());
 
-        // Retry the original request after refreshing the token
+        // Update the token in the header and retry the request
+        const newToken = result.payload.accessToken;
+        axiosInstance.defaults.headers['Authorization'] = `Bearer ${newToken}`;
+        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        console.error("Error refreshing token:", refreshError);
-        store.dispatch({ type: "auth/logout" });
+        // Handle refresh token failure (e.g., log the user out)
+        store.dispatch(logout());
         return Promise.reject(refreshError);
       }
     }
