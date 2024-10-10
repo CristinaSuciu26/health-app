@@ -22,7 +22,6 @@ const initialState = {
   error: null,
   success: null,
 };
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -45,7 +44,7 @@ const authSlice = createSlice({
     });
     builder.addCase(register.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.error = action.payload || "Registration failed";
     });
 
     // Login
@@ -65,7 +64,7 @@ const authSlice = createSlice({
     });
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.error = action.payload || "Login failed. Please try again.";
     });
 
     // Token Refresh
@@ -76,14 +75,20 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.isRefreshing = false;
       setAccessToken(action.payload.accessToken);
-      setRefreshToken(action.payload.refreshToken);
+      if (action.payload.refreshToken) {
+        setRefreshToken(action.payload.refreshToken);
+      }
     });
     builder.addCase(refreshUserToken.rejected, (state, action) => {
       state.isRefreshing = false;
-      state.error = action.payload;
+      state.error = action.payload || "Failed to refresh token";
       state.accessToken = null;
+      state.refreshToken = null;
       state.isLoggedIn = false;
+      removeAccessToken();
+      removeRefreshToken();
     });
+
     // Logout
     builder.addCase(logout.pending, (state) => {
       state.isLoading = true;
@@ -102,9 +107,9 @@ const authSlice = createSlice({
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload || "Logout failed";
       state.isLoading = false;
-      state.error = action.payload;
+      removeAccessToken();
+      removeRefreshToken();
     });
   },
 });
-
 export const authReducer = authSlice.reducer;

@@ -5,8 +5,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY;
-const ACCESS_TOKEN_EXPIRATION = "10s";
-const REFRESH_TOKEN_EXPIRATION = "1m";
+const ACCESS_TOKEN_EXPIRATION = "5s";
+const REFRESH_TOKEN_EXPIRATION = "7d";
 
 if (!SECRET_KEY) {
   throw new Error("SECRET_KEY must be defined in the environment variables.");
@@ -107,26 +107,23 @@ export const loginUser = async (req, res) => {
 export const refreshToken = async (req, res) => {
   try {
     const { refreshToken } = req.body;
-    console.log("Received refresh token:", refreshToken); 
 
     if (!refreshToken) {
       return res.status(403).send("No refresh token provided");
     }
 
     const tokenDoc = await UserService.findRefreshToken(refreshToken);
-    console.log("Token Document:", tokenDoc); 
 
     if (!tokenDoc || new Date() > tokenDoc.expiresAt) {
       return res.status(403).send("Invalid or expired refresh token");
     }
 
     const { id } = jwt.verify(refreshToken, SECRET_KEY);
-
     const newAccessToken = jwt.sign({ id }, SECRET_KEY, {
       expiresIn: ACCESS_TOKEN_EXPIRATION,
     });
 
-    res.json({ accessToken: newAccessToken });
+    res.json({ accessToken: newAccessToken, refreshToken }); 
   } catch (error) {
     console.error("Error refreshing access token:", error);
     res.status(500).json({ message: "Internal server error" });
