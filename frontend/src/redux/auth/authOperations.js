@@ -20,34 +20,43 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    // If the response is 401 and the request has not been retried yet
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const refreshToken = getRefreshToken();
+      const refreshToken = getRefreshToken();  // Get the refresh token from storage
       if (!refreshToken) {
-        return Promise.reject(error);
+        return Promise.reject(error); // No refresh token, can't retry
       }
 
       try {
-        const { data } = await axiosInstance.post("/refresh", {
-          refreshToken,
-        });
+        // Request a new token using the refresh token
+        const { data } = await axiosInstance.post("/refresh", { refreshToken });
 
-        setAccessToken(data.accessToken);
-        setRefreshToken(data.refreshToken);
+        // Log the new tokens
+        console.log("New access token:", data.accessToken);
+        console.log("New refresh token:", data.refreshToken);
+
+        // Store the new tokens in localStorage (or cookies)
+        setAccessToken(data.accessToken);  // Store the new access token
+        setRefreshToken(data.refreshToken); // Store the new refresh token (if provided)
+        
+        // Set the Authorization header to use the new access token
         setAuthHeader(data.accessToken);
 
+        // Retry the original request with the new token
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
-        return axiosInstance(originalRequest);
+        return axiosInstance(originalRequest); // Retry the request with new token
       } catch (refreshError) {
         console.error("Error refreshing token:", refreshError);
         return Promise.reject(refreshError);
       }
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error); // Return error if it's not a 401 or token refresh fails
   }
 );
+
 
 export const setAuthHeader = (token) => {
   axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -64,8 +73,8 @@ export const register = createAsyncThunk(
       const response = await axiosInstance.post("/register", userData);
       const { accessToken, refreshToken } = response.data;
       setAuthHeader(accessToken);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -79,10 +88,7 @@ export const login = createAsyncThunk(
     try {
       const response = await axiosInstance.post("/login", formData);
       const { accessToken, refreshToken } = response.data;
-      // setAuthHeader(accessToken);
-      localStorage.setItem("accessToken", accessToken);
-
-      localStorage.setItem("refreshToken", refreshToken);
+      setAuthHeader(accessToken);
       console.log("Setting access token:", accessToken);
       console.log("Setting refresh token:", refreshToken);
       setAccessToken(accessToken);
@@ -96,10 +102,13 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   "auth/logout",
-  async (_, { getState, rejectWithValue }) => {
-    const { auth } = getState();
-    const token = auth.accessToken;
-
+  async (_, { rejectWithValue }) => {
+    const token = getAccessToken();
+    console.log("Token used for logout:", token);
+    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    if (!token) {
+      return rejectWithValue("No access token available for logout.");
+    }
     try {
       const response = await axiosInstance.post(
         "/logout",
@@ -112,33 +121,30 @@ export const logout = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      console.error("Logout failed:", error.response.data);
+      console.error("Logout failed:", error.response?.data || error.message);
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const refreshUserToken = createAsyncThunk(
-  "auth/refreshToken",
-  async (_, thunkAPI) => {
+export const refreshCurrentUser = createAsyncThunk(
+  "auth/refresh",
+  async (_, rejectWithValue) => {
+    const accessToken = getAccessToken();
+
+    if (accessToken === null) {
+      return rejectWithValue.rejectWithValue("Unable to fetch user");
+    }
+
     try {
-      const refreshToken = getRefreshToken();
-      if (!refreshToken) {
-        return thunkAPI.rejectWithValue("No refresh token available");
-      }
-      setAuthHeader(refreshToken);
-      const { data } = await axiosInstance.post("/refresh", {
-        refreshToken,
-      });
-      setAccessToken(data.accessToken);
-      if (data.refreshToken) {
-        setRefreshToken(data.refreshToken);
-      }
-      return data.response;
+      const { data } = await axiosInstance.get("/current");
+      return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      );
+      if (error.response?.status === 401) {
+        removeAccessToken();
+        removeRefreshToken();
+      }
+      return rejectWithValue(error.message);
     }
   }
 );

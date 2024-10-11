@@ -6,7 +6,13 @@ import {
   setAccessToken,
   setRefreshToken,
 } from "../../utils/tokenUtils.js";
-import { login, logout, register, refreshUserToken } from "./authOperations.js";
+import {
+  login,
+  logout,
+  register,
+  refreshUserToken,
+  refreshCurrentUser,
+} from "./authOperations.js";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -67,26 +73,18 @@ const authSlice = createSlice({
       state.error = action.payload || "Login failed. Please try again.";
     });
 
-    // Token Refresh
-    builder.addCase(refreshUserToken.pending, (state) => {
+    // Current User Refresh
+    builder.addCase(refreshCurrentUser.pending, (state) => {
       state.isRefreshing = true;
     });
-    builder.addCase(refreshUserToken.fulfilled, (state, action) => {
-      state.accessToken = action.payload.accessToken;
+
+    builder.addCase(refreshCurrentUser.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+      state.isLoggedIn = true;
       state.isRefreshing = false;
-      setAccessToken(action.payload.accessToken);
-      if (action.payload.refreshToken) {
-        setRefreshToken(action.payload.refreshToken);
-      }
     });
-    builder.addCase(refreshUserToken.rejected, (state, action) => {
+    builder.addCase(refreshCurrentUser.rejected, (state) => {
       state.isRefreshing = false;
-      state.error = action.payload || "Failed to refresh token";
-      state.accessToken = null;
-      state.refreshToken = null;
-      state.isLoggedIn = false;
-      removeAccessToken();
-      removeRefreshToken();
     });
 
     // Logout
@@ -107,8 +105,8 @@ const authSlice = createSlice({
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload || "Logout failed";
       state.isLoading = false;
-      removeAccessToken();
-      removeRefreshToken();
+      // removeAccessToken();
+      // removeRefreshToken();
     });
   },
 });

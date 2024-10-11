@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY;
-const ACCESS_TOKEN_EXPIRATION = "5s";
+const ACCESS_TOKEN_EXPIRATION = "1m";
 const REFRESH_TOKEN_EXPIRATION = "7d";
 
 if (!SECRET_KEY) {
@@ -123,7 +123,7 @@ export const refreshToken = async (req, res) => {
       expiresIn: ACCESS_TOKEN_EXPIRATION,
     });
 
-    res.json({ accessToken: newAccessToken, refreshToken }); 
+    res.json({ accessToken: newAccessToken, refreshToken });
   } catch (error) {
     console.error("Error refreshing access token:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -143,4 +143,15 @@ export const logoutUser = async (req, res) => {
     console.error("Error processing user logout request:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+};
+export const getCurrent = async (req, res) => {
+  const { _id, name, email, token } = req.user;
+  res.json({
+    token,
+    user: {
+      _id,
+      name,
+      email,
+    },
+  });
 };
