@@ -8,6 +8,7 @@ import dailyIntakeRoutes from "./routes/dailyIntake.js";
 import productRoutes from "./routes/product.js";
 import logger from "morgan";
 import cors from "cors";
+import morgan from "morgan";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 // Load environment variables
@@ -19,9 +20,11 @@ const app = express();
 // Connect to database
 connectDB();
 
+// For logging
+app.use(morgan("dev"));
 // Middleware
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
-app.use(logger(formatsLogger)); 
+app.use(logger(formatsLogger));
 
 app.use(cors());
 

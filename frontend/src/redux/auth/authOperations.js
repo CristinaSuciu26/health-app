@@ -20,43 +20,36 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // If the response is 401 and the request has not been retried yet
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const refreshToken = getRefreshToken();  // Get the refresh token from storage
+      const refreshToken = getRefreshToken();
       if (!refreshToken) {
-        return Promise.reject(error); // No refresh token, can't retry
+        return Promise.reject(error);
       }
 
       try {
-        // Request a new token using the refresh token
         const { data } = await axiosInstance.post("/refresh", { refreshToken });
 
-        // Log the new tokens
         console.log("New access token:", data.accessToken);
         console.log("New refresh token:", data.refreshToken);
 
-        // Store the new tokens in localStorage (or cookies)
-        setAccessToken(data.accessToken);  // Store the new access token
-        setRefreshToken(data.refreshToken); // Store the new refresh token (if provided)
-        
-        // Set the Authorization header to use the new access token
+        setAccessToken(data.accessToken);
+        setRefreshToken(data.refreshToken);
+
         setAuthHeader(data.accessToken);
 
-        // Retry the original request with the new token
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
-        return axiosInstance(originalRequest); // Retry the request with new token
+        return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Error refreshing token:", refreshError);
         return Promise.reject(refreshError);
       }
     }
 
-    return Promise.reject(error); // Return error if it's not a 401 or token refresh fails
+    return Promise.reject(error);
   }
 );
-
 
 export const setAuthHeader = (token) => {
   axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -137,7 +130,17 @@ export const refreshCurrentUser = createAsyncThunk(
     }
 
     try {
-      const { data } = await axiosInstance.get("/current");
+      const { data } = await axiosInstance.get("/current", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!data.ok) {
+        throw new Error(`HTTP error! status: ${data.status}`);
+      }
+
+      console.log("User data from API:", data);
+
       return data;
     } catch (error) {
       if (error.response?.status === 401) {

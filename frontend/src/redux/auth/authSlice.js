@@ -10,7 +10,6 @@ import {
   login,
   logout,
   register,
-  refreshUserToken,
   refreshCurrentUser,
 } from "./authOperations.js";
 import { createSlice } from "@reduxjs/toolkit";
@@ -28,48 +27,55 @@ const initialState = {
   error: null,
   success: null,
 };
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // Helper function for setting loading state
+    const setLoadingState = (state, isLoading) => {
+      state.isLoading = isLoading;
+      state.error = null;
+    };
+
+    const handleTokenUpdates = (state, { accessToken, refreshToken }) => {
+      state.accessToken = accessToken;
+      state.refreshToken = refreshToken;
+      setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
+    };
+
     // Registration
     builder.addCase(register.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
+      setLoadingState(state, true);
     });
     builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload.user;
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
+      handleTokenUpdates(state, action.payload);
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Registration successful!";
-      setAccessToken(action.payload.accessToken);
-      setRefreshToken(action.payload.refreshToken);
     });
     builder.addCase(register.rejected, (state, action) => {
-      state.isLoading = false;
+      setLoadingState(state, false);
       state.error = action.payload || "Registration failed";
     });
 
     // Login
     builder.addCase(login.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
+      setLoadingState(state, true);
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.user = action.payload.user;
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
+      handleTokenUpdates(state, action.payload);
       state.isLoggedIn = true;
       state.isLoading = false;
       state.success = "Login successful!";
-      setAccessToken(action.payload.accessToken);
-      setRefreshToken(action.payload.refreshToken);
+      refreshCurrentUser();
     });
     builder.addCase(login.rejected, (state, action) => {
-      state.isLoading = false;
+      setLoadingState(state, false);
       state.error = action.payload || "Login failed. Please try again.";
     });
 
@@ -77,8 +83,9 @@ const authSlice = createSlice({
     builder.addCase(refreshCurrentUser.pending, (state) => {
       state.isRefreshing = true;
     });
-
     builder.addCase(refreshCurrentUser.fulfilled, (state, action) => {
+      console.log("Current User Refresh Action Payload:", action.payload);
+
       state.user = action.payload.user;
       state.isLoggedIn = true;
       state.isRefreshing = false;
@@ -89,11 +96,10 @@ const authSlice = createSlice({
 
     // Logout
     builder.addCase(logout.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
+      setLoadingState(state, true);
     });
     builder.addCase(logout.fulfilled, (state) => {
-      state.user = null;
+      state.user = { name: null, email: null };
       state.accessToken = null;
       state.refreshToken = null;
       state.isLoggedIn = false;
@@ -105,9 +111,8 @@ const authSlice = createSlice({
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload || "Logout failed";
       state.isLoading = false;
-      // removeAccessToken();
-      // removeRefreshToken();
     });
   },
 });
+
 export const authReducer = authSlice.reducer;
