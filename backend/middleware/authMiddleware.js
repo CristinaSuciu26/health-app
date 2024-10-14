@@ -22,6 +22,11 @@ const authMiddleware = async (req, res, next) => {
         .status(401)
         .json({ message: "Not authorized - User not found" });
     }
+    // Bypass the token mismatch if the route is logout
+    if (req.path === "/api/auth/logout") {
+      req.user = user;
+      return next();
+    }
 
     if (user.token !== token) {
       return res
@@ -32,6 +37,9 @@ const authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    if (req.path === "/api/auth/logout") {
+      return next(); // Allow logout even if token is expired
+    }
     return res.status(401).json({ message: "Not authorized - Invalid token" });
   }
 };

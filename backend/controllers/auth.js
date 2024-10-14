@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY;
-const ACCESS_TOKEN_EXPIRATION = "15m";
+const ACCESS_TOKEN_EXPIRATION = "5s";
 const REFRESH_TOKEN_EXPIRATION = "7d";
 
 if (!SECRET_KEY) {
@@ -113,7 +113,6 @@ export const refreshToken = async (req, res) => {
     }
 
     const tokenDoc = await UserService.findRefreshToken(refreshToken);
-
     if (!tokenDoc || new Date() > tokenDoc.expiresAt) {
       return res.status(403).send("Invalid or expired refresh token");
     }
@@ -122,6 +121,8 @@ export const refreshToken = async (req, res) => {
     const newAccessToken = jwt.sign({ id }, SECRET_KEY, {
       expiresIn: ACCESS_TOKEN_EXPIRATION,
     });
+
+    await UserService.updateUserToken(id, newAccessToken);
 
     res.json({ accessToken: newAccessToken, refreshToken });
   } catch (error) {
@@ -135,9 +136,12 @@ export const logoutUser = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     const userId = req.user._id;
+    const decoded = jwt.decode(token);
+    // Clear access token and refresh token
     await UserService.updateUserToken(userId, null);
     await UserService.deleteRefreshToken(token);
 
+    console.log("Logging out user:", userId, "with token:", token);
     res.status(204).send();
   } catch (error) {
     console.error("Error processing user logout request:", error);
@@ -145,15 +149,13 @@ export const logoutUser = async (req, res) => {
   }
 };
 
+// Get current user route handler
 export const getCurrent = async (req, res) => {
   const { _id, name, email, token } = req.user;
-  console.log("Current user data:", { _id, name, email });
+
+  console.log("Current User Data:", { _id, name, email });
   res.json({
     token,
-    user: {
-      _id,
-      name,
-      email,
-    },
+    user: { _id, name, email },
   });
 };

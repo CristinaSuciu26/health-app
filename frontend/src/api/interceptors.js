@@ -1,48 +1,64 @@
-// import axios from "axios";
-// import { logout, refreshUserToken } from "../redux/auth/authOperations";
-// import store from "../redux/store";
-// import axiosInstance from "./apiConfig";
-// // Add request interceptor to include the access token in the headers
+import axios from "axios";
+import {
+  getAccessToken,
+  getRefreshToken,
+  removeAccessToken,
+  removeRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from "../utils/tokenUtils";
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     const state = store.getState();
-//     const token = state.auth.accessToken;
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:3000/api",
+});
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config;
+// Request interceptor to add Authorization header
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getAccessToken();
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-//     if (error.response.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true;
+// Response interceptor to handle token expiration and refresh
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
-//       try {
-//         // Dispatch the refresh token action
-//         const result = await store.dispatch(refreshUserToken());
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const refreshToken = getRefreshToken();
+        if (!refreshToken) {
+          throw new Error("Refresh token missing, logging out");
+        }
 
-//         // Update the token in the header and retry the request
-//         const newToken = result.payload.accessToken;
-//         axiosInstance.defaults.headers['Authorization'] = `Bearer ${newToken}`;
-//         originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+        const { data } = await axios.post("/api/auth/refresh", {
+          token: refreshToken,
+        });
 
-//         return axiosInstance(originalRequest);
-//       } catch (refreshError) {
-//         // Handle refresh token failure (e.g., log the user out)
-//         store.dispatch(logout());
-//         return Promise.reject(refreshError);
-//       }
-//     }
+        setAccessToken(data.accessToken);
+        setRefreshToken(data.refreshToken);
 
-//     return Promise.reject(error);
-//   }
-// );
+        originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        console.error("Token refresh failed", refreshError);
+
+        removeAccessToken();
+        removeRefreshToken();
+        window.location.href = "/login";
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;
