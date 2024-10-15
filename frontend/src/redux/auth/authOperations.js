@@ -78,30 +78,3 @@ export const logout = createAsyncThunk(
     }
   }
 );
-
-export const refreshCurrentUser = createAsyncThunk(
-  "auth/refresh",
-  async (_, { rejectWithValue }) => {
-    const accessToken = getAccessToken();
-
-    if (!accessToken) {
-      return rejectWithValue("Unable to fetch user");
-    }
-
-    try {
-      const { data } = await axiosInstance.get("/auth/current", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      return data;
-    } catch (error) {
-      if (error.response?.status === 401) {
-        removeAccessToken();
-        removeRefreshToken();
-      }
-      return rejectWithValue(error.message);
-    }
-  }
-);

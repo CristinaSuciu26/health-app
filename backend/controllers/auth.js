@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY;
-const ACCESS_TOKEN_EXPIRATION = "5s";
+const ACCESS_TOKEN_EXPIRATION = "8s";
 const REFRESH_TOKEN_EXPIRATION = "7d";
 
 if (!SECRET_KEY) {
@@ -104,58 +104,54 @@ export const loginUser = async (req, res) => {
 };
 
 // Refresh token route handler
-export const refreshToken = async (req, res) => {
-  try {
-    const { refreshToken } = req.body;
-
-    if (!refreshToken) {
-      return res.status(403).send("No refresh token provided");
+  export const refreshToken = async (req, res) => {
+    const { token } = req.body;  // The refresh token from the request
+  
+    try {
+      const decodedRefreshToken = verifyRefreshToken(token);  // Verify the refresh token
+      if (!decodedRefreshToken) {
+        return res.status(401).json({ message: 'Invalid or expired refresh token' });
+      }
+  
+      const userId = decodedRefreshToken.userId;
+      const user = await User.findById(userId);  // Fetch user details from the database
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Generate new access and refresh tokens
+      const newAccessToken = generateAccessToken(userId);  
+      const newRefreshToken = generateRefreshToken(userId);
+  
+      // Return new tokens and user data
+      res.json({
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email
+        },
+      });
+    } catch (error) {
+      res.status(401).json({ message: 'Error refreshing token' });
     }
+  };
 
-    const tokenDoc = await UserService.findRefreshToken(refreshToken);
-    if (!tokenDoc || new Date() > tokenDoc.expiresAt) {
-      return res.status(403).send("Invalid or expired refresh token");
-    }
-
-    const { id } = jwt.verify(refreshToken, SECRET_KEY);
-    const newAccessToken = jwt.sign({ id }, SECRET_KEY, {
-      expiresIn: ACCESS_TOKEN_EXPIRATION,
-    });
-
-    await UserService.updateUserToken(id, newAccessToken);
-
-    res.json({ accessToken: newAccessToken, refreshToken });
-  } catch (error) {
-    console.error("Error refreshing access token:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
 
 // Logout route handler
 export const logoutUser = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     const userId = req.user._id;
-    const decoded = jwt.decode(token);
-    // Clear access token and refresh token
+
     await UserService.updateUserToken(userId, null);
     await UserService.deleteRefreshToken(token);
 
-    console.log("Logging out user:", userId, "with token:", token);
     res.status(204).send();
   } catch (error) {
     console.error("Error processing user logout request:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-};
-
-// Get current user route handler
-export const getCurrent = async (req, res) => {
-  const { _id, name, email, token } = req.user;
-
-  console.log("Current User Data:", { _id, name, email });
-  res.json({
-    token,
-    user: { _id, name, email },
-  });
 };

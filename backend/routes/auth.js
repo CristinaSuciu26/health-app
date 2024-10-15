@@ -4,7 +4,6 @@ import {
   loginUser,
   logoutUser,
   refreshToken,
-  getCurrent,
 } from "../controllers/auth.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
@@ -125,5 +124,5 @@ router.post("/logout", authMiddleware, logoutUser);
  *         description: Internal server error
  */
 router.post("/refresh", refreshToken);
-router.get("/current", authMiddleware, getCurrent);
+
 export default router;
