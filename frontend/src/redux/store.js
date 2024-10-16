@@ -7,7 +7,7 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["user", "accessToken", "refreshToken", "isLoggedIn"],
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
@@ -23,7 +23,12 @@ const store = configureStore({
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
         ignoredPaths: ["register"],
       },
-    }).concat(), // Add your middleware here
+    }), // Add your middleware here
+});
+store.subscribe(() => {
+  const state = store.getState();
+  console.log("State after rehydration:", state);
 });
 export const persistor = persistStore(store);
+
 export default store;

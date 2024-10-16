@@ -1,11 +1,3 @@
-import {
-  getAccessToken,
-  getRefreshToken,
-  removeAccessToken,
-  removeRefreshToken,
-  setAccessToken,
-  setRefreshToken,
-} from "../../utils/tokenUtils.js";
 import { login, logout, register } from "./authOperations.js";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -14,9 +6,9 @@ const initialState = {
     name: null,
     email: null,
   },
-  accessToken: getAccessToken(),
-  refreshToken: getRefreshToken(),
-  isLoggedIn: !!getAccessToken(),
+  accessToken: null,
+  refreshToken: null,
+  isLoggedIn: false,
   isLoading: false,
   isRefreshing: false,
   error: null,
@@ -28,7 +20,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload; // Update the user state with the fetched data
+      state.user = action.payload; 
     },
   },
   extraReducers: (builder) => {
@@ -41,8 +33,6 @@ const authSlice = createSlice({
     const handleTokenUpdates = (state, { accessToken, refreshToken }) => {
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
     };
 
     // Registration
@@ -88,8 +78,6 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.isLoading = false;
       state.success = "Logout successful!";
-      removeAccessToken();
-      removeRefreshToken();
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload || "Logout failed";

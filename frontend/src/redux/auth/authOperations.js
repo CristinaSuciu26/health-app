@@ -1,12 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  getAccessToken,
-  removeAccessToken,
-  removeRefreshToken,
-  setAccessToken,
-  setRefreshToken,
-} from "../../utils/tokenUtils.js";
 import axiosInstance from "../../api/interceptors.js";
+import { selectAccessToken } from "./authSelectors.js";
 
 export const setAuthHeader = (token) => {
   axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -21,10 +15,10 @@ export const register = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/auth/register", userData);
-      const { accessToken, refreshToken } = response.data;
+      const { accessToken } = response.data;
+
       setAuthHeader(accessToken);
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -37,12 +31,9 @@ export const login = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/auth/login", formData);
-      const { accessToken, refreshToken } = response.data;
+      const { accessToken } = response.data;
       setAuthHeader(accessToken);
-      console.log("Setting access token:", accessToken);
-      console.log("Setting refresh token:", refreshToken);
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -52,8 +43,9 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   "auth/logout",
-  async (_, { rejectWithValue }) => {
-    const token = getAccessToken();
+  async (_, { getState, rejectWithValue }) => {
+    const state = getState();
+    const token = selectAccessToken(state);
     console.log("Token used for logout:", token);
     axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     if (!token) {
@@ -69,8 +61,7 @@ export const logout = createAsyncThunk(
           },
         }
       );
-      removeAccessToken();
-      removeRefreshToken();
+      clearAuthHeader();
       return response.data;
     } catch (error) {
       console.error("Logout failed:", error.response?.data || error.message);

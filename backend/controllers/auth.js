@@ -89,13 +89,13 @@ export const loginUser = async (req, res) => {
     await UserService.createRefreshToken(existingUser._id, refreshToken);
 
     return res.status(200).json({
-      accessToken,
-      refreshToken,
       user: {
         name: existingUser.name,
         email: existingUser.email,
         subscription: existingUser.subscription,
       },
+      accessToken,
+      refreshToken,
     });
   } catch (error) {
     console.error("Error processing user login request:", error);
@@ -104,41 +104,42 @@ export const loginUser = async (req, res) => {
 };
 
 // Refresh token route handler
-  export const refreshToken = async (req, res) => {
-    const { token } = req.body;  // The refresh token from the request
-  
-    try {
-      const decodedRefreshToken = verifyRefreshToken(token);  // Verify the refresh token
-      if (!decodedRefreshToken) {
-        return res.status(401).json({ message: 'Invalid or expired refresh token' });
-      }
-  
-      const userId = decodedRefreshToken.userId;
-      const user = await User.findById(userId);  // Fetch user details from the database
-  
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      // Generate new access and refresh tokens
-      const newAccessToken = generateAccessToken(userId);  
-      const newRefreshToken = generateRefreshToken(userId);
-  
-      // Return new tokens and user data
-      res.json({
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-        user: {
-          _id: user._id,
-          name: user.name,
-          email: user.email
-        },
-      });
-    } catch (error) {
-      res.status(401).json({ message: 'Error refreshing token' });
-    }
-  };
+export const refreshToken = async (req, res) => {
+  const { token } = req.body; // The refresh token from the request
 
+  try {
+    const decodedRefreshToken = verifyRefreshToken(token); // Verify the refresh token
+    if (!decodedRefreshToken) {
+      return res
+        .status(401)
+        .json({ message: "Invalid or expired refresh token" });
+    }
+
+    const userId = decodedRefreshToken.userId;
+    const user = await User.findById(userId); // Fetch user details from the database
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate new access and refresh tokens
+    const newAccessToken = generateAccessToken(userId);
+    const newRefreshToken = generateRefreshToken(userId);
+
+    // Return new tokens and user data
+    res.json({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    res.status(401).json({ message: "Error refreshing token" });
+  }
+};
 
 // Logout route handler
 export const logoutUser = async (req, res) => {
