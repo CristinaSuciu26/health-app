@@ -1,13 +1,28 @@
-// export const getAccessToken = () => localStorage.getItem("accessToken");
-// export const setAccessToken = (token) => {
-//   localStorage.setItem("accessToken", token);
-// };
-// export const removeAccessToken = () => localStorage.removeItem("accessToken");
+const localStorageService = (function () {
+  const getAccessToken = () => {
+    return localStorage.getItem("accessToken");
+  };
 
-// export const getRefreshToken = () => localStorage.getItem("refreshToken");
+  const getRefreshToken = () => {
+    return localStorage.getItem("refreshToken");
+  };
 
-// export const setRefreshToken = (token) => {
-//   localStorage.setItem("refreshToken", token);
-// };
+  const setTokens = ({ accessToken, refreshToken }) => {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+  };
 
-// export const removeRefreshToken = () => localStorage.removeItem("refreshToken");
+  const clearTokens = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  };
+
+  return {
+    getAccessToken,
+    getRefreshToken,
+    setTokens,
+    clearTokens,
+  };
+})();
+
+export default localStorageService;
