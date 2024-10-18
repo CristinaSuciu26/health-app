@@ -105,39 +105,31 @@ export const loginUser = async (req, res) => {
 
 // Refresh token route handler
 export const refreshToken = async (req, res) => {
-  const { token } = req.body; // The refresh token from the request
-
   try {
-    const decodedRefreshToken = verifyRefreshToken(token); // Verify the refresh token
-    if (!decodedRefreshToken) {
-      return res
-        .status(401)
-        .json({ message: "Invalid or expired refresh token" });
+    const { refreshToken } = req.body;
+    console.log("Received refresh token:", refreshToken);
+
+    if (!refreshToken) {
+      return res.status(403).send("No refresh token provided");
     }
 
-    const userId = decodedRefreshToken.userId;
-    const user = await User.findById(userId); // Fetch user details from the database
+    const tokenDoc = await UserService.findRefreshToken(refreshToken);
+    console.log("Token Document:", tokenDoc);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    if (!tokenDoc || new Date() > tokenDoc.expiresAt) {
+      return res.status(403).send("Invalid or expired refresh token");
     }
 
-    // Generate new access and refresh tokens
-    const newAccessToken = generateAccessToken(userId);
-    const newRefreshToken = generateRefreshToken(userId);
+    const { id } = jwt.verify(refreshToken, SECRET_KEY);
 
-    // Return new tokens and user data
-    res.json({
-      accessToken: newAccessToken,
-      refreshToken: newRefreshToken,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      },
+    const newAccessToken = jwt.sign({ id }, SECRET_KEY, {
+      expiresIn: ACCESS_TOKEN_EXPIRATION,
     });
+
+    res.json({ accessToken: newAccessToken });
   } catch (error) {
-    res.status(401).json({ message: "Error refreshing token" });
+    console.error("Error refreshing access token:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

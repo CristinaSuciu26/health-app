@@ -69,8 +69,8 @@ export const logout = createAsyncThunk(
         }
       );
 
-      clearAuthHeader();
-      localStorageService.clearTokens();
+      // clearAuthHeader();
+      // localStorageService.clearTokens();
 
       return response.data;
     } catch (error) {
