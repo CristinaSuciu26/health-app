@@ -107,14 +107,12 @@ export const loginUser = async (req, res) => {
 export const refreshToken = async (req, res) => {
   try {
     const { refreshToken } = req.body;
-    console.log("Received refresh token:", refreshToken);
 
     if (!refreshToken) {
       return res.status(403).send("No refresh token provided");
     }
 
     const tokenDoc = await UserService.findRefreshToken(refreshToken);
-    console.log("Token Document:", tokenDoc);
 
     if (!tokenDoc || new Date() > tokenDoc.expiresAt) {
       return res.status(403).send("Invalid or expired refresh token");
