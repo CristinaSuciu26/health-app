@@ -46,12 +46,13 @@ export const logout = createAsyncThunk(
         return rejectWithValue("No access token available for logout.");
       }
 
-      await axiosInstance.post(
+      const response = await axiosInstance.post(
         "/auth/logout",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      localStorageService.clearTokens();
+      const { accessToken, refreshToken } = response.data;
+      localStorageService.clearTokens({ accessToken, refreshToken });
 
       return;
     } catch (error) {
@@ -59,3 +60,5 @@ export const logout = createAsyncThunk(
     }
   }
 );
+
+

@@ -12,7 +12,7 @@ const UserInfo = () => {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const token = useSelector(selectAccessToken);
-  console.log("user info", user);
+
   const handleLogout = async () => {
     try {
       await dispatch(logout(token)).unwrap();

@@ -1,5 +1,5 @@
-import { login, logout, register } from "./authOperations.js";
 import { createSlice } from "@reduxjs/toolkit";
+import {  register, login, logout } from "./authOperations.js";
 
 const initialState = {
   user: {
@@ -21,6 +21,9 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload; // Update the access token in the Redux state
     },
   },
   extraReducers: (builder) => {
@@ -86,6 +89,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setAccessToken } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
