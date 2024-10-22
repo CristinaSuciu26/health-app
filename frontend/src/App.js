@@ -16,11 +16,10 @@ import useNotifications from "./hooks/useNotifications.js";
 import CalculatorPage from "./pages/calculatorPage/CalculatorPage.jsx";
 import DiaryPage from "./pages/diaryPage/DiaryPage.jsx";
 import PrivateRoute from "./privateRoute.js";
-import { setupAxiosInterceptors } from "./api/interceptors.js";
-import store from "./redux/store.js"
+
 const App = () => {
   useNotifications();
-  setupAxiosInterceptors(store); 
+
   return (
     <Router>
       <Loader />

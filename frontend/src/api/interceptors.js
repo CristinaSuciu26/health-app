@@ -1,6 +1,6 @@
 import axios from "axios";
 import localStorageService from "../utils/tokenUtils.js";
-import setTokens from "../utils/tokenUtils.js";
+import { setTokens } from "../redux/auth/authSlice.js";
 
 // Create axios instance
 const axiosInstance = axios.create({
