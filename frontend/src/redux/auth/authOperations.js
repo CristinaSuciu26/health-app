@@ -41,16 +41,6 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorageService.getAccessToken();
-      if (!token) {
-        return rejectWithValue("No access token available for logout.");
-      }
-
-      await axiosInstance.post(
-        "/auth/logout",
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
       localStorageService.clearTokens();
 
       return;

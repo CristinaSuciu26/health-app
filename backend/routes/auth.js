@@ -90,7 +90,7 @@ router.post("/login", loginUser);
  *       500:
  *         description: Internal server error
  */
-router.post("/logout", authMiddleware, logoutUser);
+router.post("/logout", logoutUser);
 
 /**
  * @swagger

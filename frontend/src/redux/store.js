@@ -1,8 +1,8 @@
-import { authReducer } from "./auth/authSlice.js";
 import { configureStore } from "@reduxjs/toolkit";
-import { productReducer } from "./calorieIntake/calorieIntakeSlice.js";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { authReducer } from "./auth/authSlice.js";
+import { productReducer } from "./calorieIntake/calorieIntakeSlice.js";
 import { setupAxiosInterceptors } from "../api/interceptors.js";
 
 const persistConfig = {
@@ -24,14 +24,17 @@ const store = configureStore({
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
         ignoredPaths: ["register"],
       },
-    }), // Add your middleware here
+    }),
 });
 
-setupAxiosInterceptors(store.dispatch);
+
+setupAxiosInterceptors(store);
+
 store.subscribe(() => {
   const state = store.getState();
   console.log("State after rehydration:", state);
 });
+
 export const persistor = persistStore(store);
 
 export default store;

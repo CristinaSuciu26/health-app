@@ -134,11 +134,14 @@ export const refreshToken = async (req, res) => {
 // Logout route handler
 export const logoutUser = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
     const userId = req.user._id;
 
+    if (!req.user) {
+      return res
+        .status(400)
+        .json({ message: "User not found or not logged in." });
+    }
     await UserService.updateUserToken(userId, null);
-    await UserService.deleteRefreshToken(token);
 
     res.status(204).send();
   } catch (error) {

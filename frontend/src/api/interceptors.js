@@ -2,7 +2,6 @@ import axios from "axios";
 import localStorageService from "../utils/tokenUtils.js";
 import { setTokens } from "../redux/auth/authSlice.js";
 
-// Create axios instance
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api",
 });
@@ -15,7 +14,7 @@ const refreshToken = async (dispatch) => {
   if (!refreshToken) throw new Error("No refresh token available");
 
   const response = await axiosInstance.post("/auth/refresh", {
-    refreshToken: localStorageService.getRefreshToken(),
+    refreshToken: refreshToken,
   });
 
   // Update localStorage with new tokens
@@ -25,61 +24,37 @@ const refreshToken = async (dispatch) => {
   });
 
   // Dispatch action to update Redux store
-  dispatch(setTokens(response.data.accessToken)); // Dispatch directly
+  dispatch(setTokens(response.data.accessToken));
 
   return response.data.accessToken;
 };
 
-// Request interceptor
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorageService.getAccessToken();
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Response interceptor to handle token expiration and refresh
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    // Handle token expiration
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      try {
-        // Pass the dispatch directly
-        const newAccessToken = await refreshToken(originalRequest.dispatch);
-        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-        return axiosInstance(originalRequest); // Retry the original request with the new token
-      } catch (refreshError) {
-        return Promise.reject(refreshError); // If refresh fails, reject the request
-      }
-    }
-
-    return Promise.reject(error);
-  }
-);
-
+// Function to set up interceptors and pass store's dispatch
 export const setupAxiosInterceptors = (store) => {
+  axiosInstance.interceptors.request.use(
+    (config) => {
+      const token = localStorageService.getAccessToken();
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
   axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
 
-      // Pass the store's dispatch function when refreshing token
       if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-          const newAccessToken = await refreshToken(store.dispatch); // Use store.dispatch
+          const newAccessToken = await refreshToken(store.dispatch);
           originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return axiosInstance(originalRequest); // Retry the original request with the new token
+          return axiosInstance(originalRequest);
         } catch (refreshError) {
-          return Promise.reject(refreshError); // If refresh fails, reject the request
+          return Promise.reject(refreshError);
         }
       }
 
