@@ -106,16 +106,23 @@ export const loginUser = async (req, res) => {
 // Refresh token route handler
 export const refreshToken = async (req, res) => {
   try {
+    console.log("Received refresh token request:", req.body);
+
     const { refreshToken } = req.body;
 
     if (!refreshToken) {
-      return res.status(403).send("No refresh token provided");
+      console.error("No refresh token provided");
+      return res.status(403).json({ message: "No refresh token provided" });
     }
 
     const tokenDoc = await UserService.findRefreshToken(refreshToken);
+    console.log("Token document:", tokenDoc);
 
     if (!tokenDoc || new Date() > tokenDoc.expiresAt) {
-      return res.status(403).send("Invalid or expired refresh token");
+      console.error("Invalid or expired refresh token");
+      return res
+        .status(403)
+        .json({ message: "Invalid or expired refresh token" });
     }
 
     const { id } = jwt.verify(refreshToken, SECRET_KEY);

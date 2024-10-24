@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,10 +16,24 @@ import useNotifications from "./hooks/useNotifications.js";
 import CalculatorPage from "./pages/calculatorPage/CalculatorPage.jsx";
 import DiaryPage from "./pages/diaryPage/DiaryPage.jsx";
 import PrivateRoute from "./privateRoute.js";
+import { setTokens } from "./redux/auth/authSlice.js";
+import localStorageService from "./utils/tokenUtils.js";
+import { useDispatch } from "react-redux";
 
 const App = () => {
   useNotifications();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    // Check if tokens exist in localStorage
+    const accessToken = localStorageService.getAccessToken();
+    const refreshToken = localStorageService.getRefreshToken();
+
+    if (accessToken && refreshToken) {
+      // Dispatch action to set tokens in Redux store
+      dispatch(setTokens({ accessToken, refreshToken }));
+    }
+  }, [dispatch]);
   return (
     <Router>
       <Loader />

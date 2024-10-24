@@ -3,7 +3,6 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { authReducer } from "./auth/authSlice.js";
 import { productReducer } from "./calorieIntake/calorieIntakeSlice.js";
-import { setupAxiosInterceptors } from "../api/interceptors.js";
 
 const persistConfig = {
   key: "root",
@@ -27,11 +26,9 @@ const store = configureStore({
     }),
 });
 
-
-setupAxiosInterceptors(store);
-
 store.subscribe(() => {
   const state = store.getState();
+
   console.log("State after rehydration:", state);
 });
 
