@@ -4,6 +4,7 @@ const localStorageService = (() => {
   const getRefreshToken = () => localStorage.getItem("refreshToken");
 
   const setTokens = ({ accessToken, refreshToken }) => {
+    console.log("tokens in ls:", refreshToken, accessToken);
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
   };

@@ -106,26 +106,32 @@ export const loginUser = async (req, res) => {
 // Refresh token route handler
 export const refreshToken = async (req, res) => {
   try {
-    console.log("Received refresh token request:", req.body);
+    const { token } = req.body;
 
-    const { refreshToken } = req.body;
-
-    if (!refreshToken) {
-      console.error("No refresh token provided");
-      return res.status(403).json({ message: "No refresh token provided" });
+    if (!token) {
+      console.error("No token provided");
+      return res.status(403).json({ message: "No token provided" });
     }
 
-    const tokenDoc = await UserService.findRefreshToken(refreshToken);
+    const tokenDoc = await UserService.findRefreshToken(token);
     console.log("Token document:", tokenDoc);
 
+    if (!tokenDoc) {
+      console.error("Token not found");
+      return res.status(403).json({ message: "Token not found" });
+    }
     if (!tokenDoc || new Date() > tokenDoc.expiresAt) {
       console.error("Invalid or expired refresh token");
       return res
-        .status(403)
-        .json({ message: "Invalid or expired refresh token" });
+        .status(401)
+        .json({ message: "Refresh token has expired, please log in again" });
+    }
+    if (new Date() > tokenDoc.expiresAt) {
+      console.error("Expired token", { token, expiresAt: tokenDoc.expiresAt });
+      return res.status(403).json({ message: "Expired token" });
     }
 
-    const { id } = jwt.verify(refreshToken, SECRET_KEY);
+    const { id } = jwt.verify(token, SECRET_KEY);
 
     const newAccessToken = jwt.sign({ id }, SECRET_KEY, {
       expiresIn: ACCESS_TOKEN_EXPIRATION,
