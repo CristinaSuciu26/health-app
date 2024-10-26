@@ -4,7 +4,6 @@ import connectDB from "./config/db.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpecs from "./swagger.js";
 import authRoutes from "./routes/auth.js";
-import dailyIntakeRoutes from "./routes/dailyIntake.js";
 import productRoutes from "./routes/product.js";
 import logger from "morgan";
 import cors from "cors";
@@ -41,7 +40,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/foods", productRoutes, dailyIntakeRoutes);
+app.use("/api/foods", productRoutes);
 
 // Serve Swagger documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/interceptors.js";
-import localStorageService from "../../utils/tokenUtils.js";
+// import localStorageService from "../../utils/tokenUtils.js";
 
 // Register action
 export const register = createAsyncThunk(
@@ -10,7 +10,9 @@ export const register = createAsyncThunk(
       const response = await axiosInstance.post("/auth/register", userData);
       const { accessToken, refreshToken } = response.data;
 
-      localStorageService.setTokens({ accessToken, refreshToken });
+      localStorage.setItem("accessToken", accessToken);
+
+      localStorage.setItem("refreshToken", refreshToken);
 
       return response.data;
     } catch (error) {
@@ -27,7 +29,8 @@ export const login = createAsyncThunk(
       const response = await axiosInstance.post("/auth/login", formData);
       const { accessToken, refreshToken } = response.data;
 
-      localStorageService.setTokens({ accessToken, refreshToken });
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
 
       return response.data;
     } catch (error) {
@@ -41,8 +44,10 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      localStorageService.clearTokens();
+      // await axiosInstance.post("/auth/logout");
+      localStorage.removeItem("accessToken");
 
+      localStorage.removeItem("refreshToken");
       return;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
