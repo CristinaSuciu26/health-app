@@ -5,13 +5,13 @@ import Modal from "../modal/Modal";
 import {
   getDailyIntake,
   getProducts,
-} from "../../redux/calorieIntake/calorieIntakeOperations";
+} from "../../redux/products/productsOperations";
 import {
   selectDailyIntake,
   // selectIsLoading,
   // selectError,
   selectProducts,
-} from "../../redux/calorieIntake/calorieIntakeSelectors.js";
+} from "../../redux/products/productsSelectors.js";
 import DailyCalorieIntake from "../calorieIntake/DailyCalorieIntake.jsx";
 import { selectIsLoggedIn } from "../../redux/auth/authSelectors.js";
 

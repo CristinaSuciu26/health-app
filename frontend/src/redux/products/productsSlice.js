@@ -6,7 +6,7 @@ import {
   getDailyIntake,
   getProducts,
   removeProduct,
-} from "./calorieIntakeOperations";
+} from "./productsOperations";
 
 const initialState = {
   products: [],

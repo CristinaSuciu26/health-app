@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getConsumedProducts } from "../../redux/calorieIntake/calorieIntakeOperations";
+import { getConsumedProducts } from "../../redux/products/productsOperations";
 import {
   selectConsumedProducts,
   selectSelectedDate,
-} from "../../redux/calorieIntake/calorieIntakeSelectors";
+} from "../../redux/products/productsSelectors";
 import styles from "./DailyCalorieIntake.module.css";
 
 const DailyCalorieIntake = ({ calories, dietRecommendations }) => {

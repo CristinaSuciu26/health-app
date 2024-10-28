@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./DiaryAddProductForm.module.css";
-import { addProduct } from "../../redux/calorieIntake/calorieIntakeOperations";
+import { addProduct } from "../../redux/products/productsOperations";
 import {
   clearProductForm,
   setGrams,
   setProductName,
-} from "../../redux/calorieIntake/calorieIntakeSlice";
+} from "../../redux/products/productsSlice";
 import {
   selectGrams,
   selectProductName,
   selectSelectedDate,
-} from "../../redux/calorieIntake/calorieIntakeSelectors";
+} from "../../redux/products/productsSelectors";
 import closeAddForm from "../../assets/images/logo/closeAddForm.svg";
 import addButton from "../../assets/images/logo/addButton.svg";
 

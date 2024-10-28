@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/interceptors.js";
-// import localStorageService from "../../utils/tokenUtils.js";
 
 // Register action
 export const register = createAsyncThunk(
@@ -43,8 +42,12 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      return rejectWithValue("No access token found.");
+    }
     try {
-      // await axiosInstance.post("/auth/logout");
+      await axiosInstance.post("/auth/logout");
       localStorage.removeItem("accessToken");
 
       localStorage.removeItem("refreshToken");

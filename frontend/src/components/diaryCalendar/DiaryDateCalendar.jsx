@@ -4,7 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import styles from "./DiaryDateCalendar.module.css";
 import { useSelector } from "react-redux";
-import { selectSelectedDate } from "../../redux/calorieIntake/calorieIntakeSelectors";
+import { selectSelectedDate } from "../../redux/products/productsSelectors";
 
 const DiaryDateCalendar = ({ onDateChange }) => {
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);

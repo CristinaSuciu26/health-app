@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import DiaryProductsList from "../../components/productList/DiaryProductsList";
 import DiaryDateCalendar from "../../components/diaryCalendar/DiaryDateCalendar";
 import DiaryAddProductForm from "../../components/addProductForm/DiaryAddProductForm";
-import { getConsumedProducts } from "../../redux/calorieIntake/calorieIntakeOperations";
-import { setSelectedDate } from "../../redux/calorieIntake/calorieIntakeSlice";
+import { getConsumedProducts } from "../../redux/products/productsOperations";
+import { setSelectedDate } from "../../redux/products/productsSlice";
 import {
   selectConsumedProducts,
   selectDailyIntake,
   selectProducts,
   selectSelectedDate,
-} from "../../redux/calorieIntake/calorieIntakeSelectors";
+} from "../../redux/products/productsSelectors";
 import DailyCalorieIntake from "../../components/calorieIntake/DailyCalorieIntake";
 import styles from "./DiaryPage.module.css";
 

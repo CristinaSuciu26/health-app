@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { authReducer } from "./auth/authSlice.js";
-import { productReducer } from "./calorieIntake/calorieIntakeSlice.js";
+import { productReducer } from "./products/productsSlice.js";
 
 const persistConfig = {
   key: "root",

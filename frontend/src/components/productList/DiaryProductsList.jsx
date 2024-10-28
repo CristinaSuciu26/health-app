@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./DiaryProductsList.module.css";
-import { removeProduct } from "../../redux/calorieIntake/calorieIntakeOperations";
-import { selectSelectedDate } from "../../redux/calorieIntake/calorieIntakeSelectors";
+import { removeProduct } from "../../redux/products/productsOperations";
+import { selectSelectedDate } from "../../redux/products/productsSelectors";
 import close from "../../assets/images/logo/close.svg";
 
 const DiaryProductsList = ({ products }) => {
