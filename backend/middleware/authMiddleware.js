@@ -1,47 +1,22 @@
 import jwt from "jsonwebtoken";
-import UserService from "../services/userService.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
-const authMiddleware = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+const authMiddleware = (req, res, next) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
 
-  if (!authHeader) {
-    return res.status(401).json({ message: "Not authorized - No auth header" });
+  if (!token) {
+    return res.status(401).json({ message: "No token provided." });
   }
 
-  const token = authHeader.split(" ")[1];
-
-  try {
-    const decoded = jwt.verify(token, SECRET_KEY);
-
-    const user = await UserService.getUserById(decoded.id);
-
-    if (!user) {
-      return res
-        .status(401)
-        .json({ message: "Not authorized - User not found" });
-    }
-    // Bypass the token mismatch if the route is logout
-    if (req.path === "/api/auth/logout") {
-      req.user = user;
-      return next();
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Unauthorized." });
     }
 
-    if (user.token !== token) {
-      return res
-        .status(401)
-        .json({ message: "Not authorized - Token mismatch" });
-    }
-
-    req.user = user;
+    req.user = decoded;
     next();
-  } catch (error) {
-    if (req.path === "/api/auth/logout") {
-      return next(); // Allow logout even if token is expired
-    }
-    return res.status(401).json({ message: "Not authorized - Invalid token" });
-  }
+  });
 };
 
 export default authMiddleware;

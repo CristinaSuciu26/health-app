@@ -118,7 +118,6 @@ export const getDailyIntake = async (req, res) => {
     });
 
     await log.save();
-    console.log("DailyLog instance:", log);
 
     res.status(200).json({
       message: "Daily intake and non-recommended products saved successfully!",

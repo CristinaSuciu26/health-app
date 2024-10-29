@@ -5,7 +5,7 @@ import {
   logoutUser,
   refreshToken,
 } from "../controllers/auth.js";
-import verifyToken from "../middleware/authMiddleware.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 /**
@@ -89,7 +89,7 @@ router.post("/login", loginUser);
  *       500:
  *         description: Internal server error
  */
-router.post("/logout", verifyToken, logoutUser);
+router.post("/logout", authMiddleware, logoutUser);
 
 /**
  * @swagger

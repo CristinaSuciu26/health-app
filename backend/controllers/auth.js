@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY;
-const ACCESS_TOKEN_EXPIRATION = "6s";
+const ACCESS_TOKEN_EXPIRATION = "1m";
 const REFRESH_TOKEN_EXPIRATION = "7d";
 
 if (!SECRET_KEY) {
@@ -147,7 +147,7 @@ export const refreshToken = async (req, res) => {
 // Logout route handler
 export const logoutUser = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
 
     if (!req.user) {
       return res

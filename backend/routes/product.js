@@ -13,6 +13,7 @@ import {
   getProducts,
   searchProducts,
 } from "../controllers/product.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -144,11 +145,11 @@ router.get("/search", authenticateToken, searchProducts);
  *                   type: string
  *                   example: Server Error
  */
-router.post("/add", authenticateToken, addConsumedProducts);
+router.post("/add", authMiddleware, addConsumedProducts);
 router.post(
   "/daily-intake",
   validateDailyIntakeBody,
-  authenticateToken,
+  authMiddleware,
   verifyUser,
   getDailyIntake
 );
@@ -307,7 +308,7 @@ router.get("/intake", validateProductQuery, getProducts);
  *                   type: string
  *                   example: Server Error
  */
-router.delete("/delete", authenticateToken, deleteConsumedProduct);
+router.delete("/delete", authMiddleware, deleteConsumedProduct);
 
 /**
  * @swagger
@@ -386,6 +387,6 @@ router.delete("/delete", authenticateToken, deleteConsumedProduct);
  *                   type: string
  *                   example: Server Error
  */
-router.get("/consumed-products", authenticateToken, getConsumedProductsByDate);
+router.get("/consumed-products", authMiddleware, getConsumedProductsByDate);
 
 export default router;
