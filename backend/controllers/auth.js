@@ -147,7 +147,7 @@ export const refreshToken = async (req, res) => {
 // Logout route handler
 export const logoutUser = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     if (!req.user) {
       return res

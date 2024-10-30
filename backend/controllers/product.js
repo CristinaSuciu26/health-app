@@ -218,7 +218,7 @@ export const deleteConsumedProduct = async (req, res) => {
 export const getConsumedProductsByDate = async (req, res) => {
   try {
     const { date } = req.query;
-    const userId = req.user.id;
+    const userId = req.user_id;
     if (!date) {
       return res
         .status(400)
