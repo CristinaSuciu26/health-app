@@ -7,15 +7,22 @@ import { productReducer } from "./products/productsSlice.js";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "isLoggedIn", "isLoading"],
+  whitelist: [
+    "user",
+    "isLoggedIn",
+    "isLoading",
+    // "consumedProducts",
+    // "products",
+    // "dailyIntake",
+  ],
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
-
+const persistedProductReducer = persistReducer(persistConfig, productReducer);
 const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
-    products: productReducer,
+    products: persistedProductReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

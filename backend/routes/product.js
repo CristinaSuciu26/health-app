@@ -149,7 +149,7 @@ router.post("/add", authMiddleware, addConsumedProducts);
 router.post(
   "/daily-intake",
   validateDailyIntakeBody,
-  authMiddleware,
+  authenticateToken,
   verifyUser,
   getDailyIntake
 );
@@ -308,7 +308,7 @@ router.get("/intake", validateProductQuery, getProducts);
  *                   type: string
  *                   example: Server Error
  */
-router.delete("/delete", authMiddleware, deleteConsumedProduct);
+router.delete("/delete", authenticateToken, deleteConsumedProduct);
 
 /**
  * @swagger
@@ -387,6 +387,6 @@ router.delete("/delete", authMiddleware, deleteConsumedProduct);
  *                   type: string
  *                   example: Server Error
  */
-router.get("/consumed-products", authMiddleware, getConsumedProductsByDate);
+router.get("/consumed-products", authenticateToken, getConsumedProductsByDate);
 
 export default router;

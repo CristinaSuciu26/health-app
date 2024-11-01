@@ -1,6 +1,7 @@
 ul {
   list-style-type: none;
 }
+
 .summaryContainer {
   background-color: var(--color-background-secondary);
   width: 100%;
@@ -35,6 +36,11 @@ ul {
   padding-right: 20px;
 }
 .percentage {
+  flex-basis: 50%;
+}
+.overconsumption {
+  color: red;
+  font-weight: bold;
   flex-basis: 50%;
 }
 .noFoods {
