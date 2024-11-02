@@ -4,25 +4,28 @@ import storage from "redux-persist/lib/storage";
 import { authReducer } from "./auth/authSlice.js";
 import { productReducer } from "./products/productsSlice.js";
 
-const persistConfig = {
-  key: "root",
+const authPersistConfig = {
+  key: "auth",
   storage,
-  whitelist: [
-    "user",
-    "isLoggedIn",
-    "isLoading",
-    // "consumedProducts",
-    // "products",
-    // "dailyIntake",
-  ],
+  whitelist: ["user", "isLoggedIn", "isLoading"],
 };
 
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
-const persistedProductReducer = persistReducer(persistConfig, productReducer);
+const productPersistComfig = {
+  key: "products",
+  storage,
+  whitelist: ["consumedProducts", "products", "dailyIntake", "selectedDate"],
+};
+
+const authPersistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistProductReducer = persistReducer(
+  productPersistComfig,
+  productReducer
+);
+
 const store = configureStore({
   reducer: {
-    auth: persistedAuthReducer,
-    products: persistedProductReducer,
+    auth: authPersistedAuthReducer,
+    products: persistProductReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
