@@ -5,7 +5,7 @@ import { removeProduct } from "../../redux/products/productsOperations";
 import { selectSelectedDate } from "../../redux/products/productsSelectors";
 import close from "../../assets/images/logo/close.svg";
 
-const DiaryProductsList = ({ products }) => {
+const DiaryProductsList = ({ consumedProducts }) => {
   const dispatch = useDispatch();
   const selectedDate = useSelector(selectSelectedDate);
 
@@ -13,8 +13,14 @@ const DiaryProductsList = ({ products }) => {
     dispatch(removeProduct(id));
   };
 
-  const filteredProducts = products.filter(
+  const filteredProducts = consumedProducts.filter(
     (product) => product.date.split("T")[0] === selectedDate
+  );
+
+  console.log(
+    "Filtered products for selectedDate:",
+    selectedDate,
+    filteredProducts
   );
 
   return (

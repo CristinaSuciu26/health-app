@@ -10,22 +10,12 @@ const authPersistConfig = {
   whitelist: ["user", "isLoggedIn", "isLoading"],
 };
 
-const productPersistComfig = {
-  key: "products",
-  storage,
-  whitelist: ["consumedProducts", "products", "dailyIntake", "selectedDate"],
-};
-
 const authPersistedAuthReducer = persistReducer(authPersistConfig, authReducer);
-const persistProductReducer = persistReducer(
-  productPersistComfig,
-  productReducer
-);
 
 const store = configureStore({
   reducer: {
     auth: authPersistedAuthReducer,
-    products: persistProductReducer,
+    products: productReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

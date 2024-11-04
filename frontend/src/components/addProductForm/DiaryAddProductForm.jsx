@@ -30,6 +30,7 @@ const DiaryAddProductForm = () => {
     setIsModalOpen(false);
     document.body.style.overflow = "";
   };
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768 && isModalOpen) {
@@ -66,6 +67,7 @@ const DiaryAddProductForm = () => {
 
     try {
       await dispatch(addProduct(productData)).unwrap();
+
       dispatch(clearProductForm());
     } catch (error) {
       console.error("Failed to add product:", error);

@@ -5,6 +5,7 @@ import { IoCalendarNumberOutline } from "react-icons/io5";
 import styles from "./DiaryDateCalendar.module.css";
 import { useSelector } from "react-redux";
 import { selectSelectedDate } from "../../redux/products/productsSelectors";
+import { formatDate } from "../../utils/dateUtils";
 
 const DiaryDateCalendar = ({ onDateChange }) => {
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
@@ -14,11 +15,6 @@ const DiaryDateCalendar = ({ onDateChange }) => {
     ? new Date(selectedDate)
     : new Date();
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US").format(date);
-  };
-
   const formattedDate = formatDate(currentSelectedDate);
 
   const toggleCalendar = () => {
@@ -26,6 +22,7 @@ const DiaryDateCalendar = ({ onDateChange }) => {
   };
 
   const handleDateChange = (date) => {
+    console.log("Selected date:", date);
     if (date instanceof Date && !isNaN(date.getTime())) {
       onDateChange(date);
     } else {

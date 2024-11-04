@@ -7,24 +7,25 @@ import {
 } from "../../redux/products/productsSelectors";
 import styles from "./DailyCalorieIntake.module.css";
 
+// Utility function for date formatting
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-US").format(date);
+};
+
 const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
   const dispatch = useDispatch();
   const consumedProducts = useSelector(selectConsumedProducts);
   const selectedDate = useSelector(selectSelectedDate);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US").format(date);
-  };
-
   const formattedDate = useMemo(() => formatDate(selectedDate), [selectedDate]);
 
-  // Refetch products whenever selectedDate changes or a product is added
+  // Refetch products whenever selectedDate changes
   useEffect(() => {
     if (selectedDate) {
-      dispatch(getConsumedProducts(formattedDate));
+      dispatch(getConsumedProducts(selectedDate)); // Fetch products for the new date
     }
-  }, [formattedDate, dispatch, consumedProducts.length, selectedDate]);
+  }, [selectedDate, dispatch]);
 
   // Calculate total consumed calories
   const consumedCalories = useMemo(() => {
@@ -55,11 +56,7 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
             </li>
             <li className={styles.summaryItem}>
               <span className={styles.summaryListName}>Consumed:</span>
-
-              <span className={styles.percentage}>
-                {" "}
-                {consumedCalories} kcal
-              </span>
+              <span className={styles.percentage}>{consumedCalories} kcal</span>
             </li>
             <li className={styles.summaryItem}>
               <span className={styles.summaryListName}>Daily Rate:</span>
@@ -68,15 +65,11 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
             <li className={styles.summaryItem}>
               <span className={styles.summaryListName}>% of Normal:</span>
               {percentageOfNormal > 100 ? (
-                <span
-                  className={styles.overconsumption + " " + styles.percentage}
-                >
+                <span className={`${styles.overconsumption} ${styles.percentage}`}>
                   {percentageOfNormal} %
                 </span>
               ) : (
-                <span className={styles.percentage}>
-                  {percentageOfNormal} %
-                </span>
+                <span className={styles.percentage}>{percentageOfNormal} %</span>
               )}
             </li>
           </ul>

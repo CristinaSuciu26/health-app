@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DiaryProductsList from "../../components/productList/DiaryProductsList";
 import DiaryDateCalendar from "../../components/diaryCalendar/DiaryDateCalendar";
@@ -13,33 +13,27 @@ import {
 } from "../../redux/products/productsSelectors";
 import DailyCalorieIntake from "../../components/calorieIntake/DailyCalorieIntake";
 import styles from "./DiaryPage.module.css";
+import { formatDate } from "../../utils/dateUtils";
 
 const DiaryPage = () => {
   const dispatch = useDispatch();
   const selectedDate = useSelector(selectSelectedDate);
-  const products = useSelector(selectConsumedProducts);
+  const consumedProducts = useSelector(selectConsumedProducts);
   const dailyIntake = useSelector(selectDailyIntake);
   const productsNotRecommended = useSelector(selectProducts);
 
-  useEffect(() => {
-    if (selectedDate) {
-      dispatch(getConsumedProducts(selectedDate));
-    }
-  }, [selectedDate, dispatch]);
-
   const handleDateChange = (date) => {
-    if (date instanceof Date && !isNaN(date.getTime())) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const formattedDate = `${year}-${month}-${day}`;
-
+    const formattedDate = formatDate(date);
+    if (formattedDate) {
       dispatch(setSelectedDate(formattedDate));
+      dispatch(getConsumedProducts(formattedDate));
     } else {
       console.error("Invalid date:", date);
     }
   };
-  const validProducts = products.filter((product) => product.id || product._id);
+  const validProducts = consumedProducts.filter(
+    (product) => product.id || product._id
+  );
 
   return (
     <div className={styles.diaryPageContainer}>
@@ -47,7 +41,7 @@ const DiaryPage = () => {
         <DiaryDateCalendar onDateChange={handleDateChange} />
         <div className={styles.addProductContent}>
           <DiaryProductsList
-            products={validProducts}
+            consumedProducts={validProducts}
             selectedDate={selectedDate}
           />
           <DiaryAddProductForm selectedDate={selectedDate} />
