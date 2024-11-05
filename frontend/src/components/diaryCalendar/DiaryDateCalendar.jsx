@@ -22,7 +22,6 @@ const DiaryDateCalendar = ({ onDateChange }) => {
   };
 
   const handleDateChange = (date) => {
-    console.log("Selected date:", date);
     if (date instanceof Date && !isNaN(date.getTime())) {
       onDateChange(date);
     } else {

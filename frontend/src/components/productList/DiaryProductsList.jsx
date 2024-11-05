@@ -17,12 +17,6 @@ const DiaryProductsList = ({ consumedProducts }) => {
     (product) => product.date.split("T")[0] === selectedDate
   );
 
-  console.log(
-    "Filtered products for selectedDate:",
-    selectedDate,
-    filteredProducts
-  );
-
   return (
     <div>
       <div className={styles.listContent}>

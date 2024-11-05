@@ -19,25 +19,12 @@ const initialState = {
   grams: "",
 };
 
-// Helper function to save consumed products by date in localStorage
-const saveConsumedProductsToLocalStorage = (date, products) => {
-  localStorage.setItem(`consumedProducts_${date}`, JSON.stringify(products));
-};
-
-// Helper function to load consumed products from localStorage by date
-const loadConsumedProductsFromLocalStorage = (date) => {
-  const products = localStorage.getItem(`consumedProducts_${date}`);
-  return products ? JSON.parse(products) : [];
-};
 const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
     setSelectedDate(state, action) {
       state.selectedDate = action.payload;
-      state.consumedProducts = loadConsumedProductsFromLocalStorage(
-        action.payload
-      );
     },
     setProductName(state, action) {
       state.productName = action.payload;
@@ -86,9 +73,8 @@ const productSlice = createSlice({
       })
       .addCase(addProduct.fulfilled, (state, action) => {
         state.isLoading = false;
-        const date = state.selectedDate;
         state.consumedProducts.push(action.payload.consumedProduct);
-        saveConsumedProductsToLocalStorage(date, state.consumedProducts);
+
         state.error = null;
       })
       .addCase(addProduct.rejected, (state, action) => {
