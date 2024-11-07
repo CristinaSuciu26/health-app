@@ -56,7 +56,7 @@ export const getProducts = async (req, res) => {
 
 export const getDailyIntake = async (req, res) => {
   try {
-    if (!req.user) {
+    if (!req.user.id) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
@@ -218,7 +218,7 @@ export const deleteConsumedProduct = async (req, res) => {
 export const getConsumedProductsByDate = async (req, res) => {
   try {
     const { date } = req.query;
-    const userId = req.user_id;
+    const userId = req.user.id;
     if (!date) {
       return res
         .status(400)

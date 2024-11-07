@@ -17,6 +17,8 @@ const DiaryProductsList = ({ consumedProducts }) => {
     (product) => product.date.split("T")[0] === selectedDate
   );
 
+  console.log("filtered products", filteredProducts);
+
   return (
     <div>
       <div className={styles.listContent}>
@@ -25,7 +27,7 @@ const DiaryProductsList = ({ consumedProducts }) => {
             filteredProducts.map((product) => (
               <li key={product._id} className={styles.productItem}>
                 <span className={styles.productTitle}>
-                  {product.productDetails?.name || "Unknown Product"}
+                  {product.product.title || "Unknown Product"}
                 </span>
 
                 <span className={styles.productGrams}>
@@ -33,17 +35,15 @@ const DiaryProductsList = ({ consumedProducts }) => {
                 </span>
 
                 <span className={styles.productCalories}>
-                  {product.productDetails?.calories
-                    ? `${Math.round(product.productDetails.calories)} kcal`
+                  {product.product.calories
+                    ? `${Math.round(product.product.calories)} kcal`
                     : "N/A"}
                 </span>
 
                 <button
                   className={styles.deleteButton}
                   onClick={() => handleDelete(product._id)}
-                  aria-label={`Remove ${
-                    product.productDetails?.name || "product"
-                  }`}
+                  aria-label={`Remove ${product.product.title || "product"}`}
                 >
                   <img src={close} alt="Close Button" />
                 </button>
