@@ -160,6 +160,7 @@ export const addConsumedProducts = async (req, res) => {
 
     const currentDate = new Date();
     const product = await ProductService.findProductByName(productName);
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -171,18 +172,16 @@ export const addConsumedProducts = async (req, res) => {
       quantity,
     });
 
-    await consumedProduct.save();
+    const savedProduct = await consumedProduct.save();
+    const populatedProduct = await savedProduct.populate("product");
 
     const totalCalories = (product.calories / 100) * quantity;
 
     res.status(201).json({
       message: "Consumed product added successfully",
       consumedProduct: {
-        ...consumedProduct.toObject(),
-        productDetails: {
-          name: product.title,
-          calories: totalCalories,
-        },
+        ...populatedProduct.toObject(),
+        totalCalories,
       },
     });
   } catch (error) {

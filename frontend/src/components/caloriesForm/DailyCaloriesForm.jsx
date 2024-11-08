@@ -8,8 +8,6 @@ import {
 } from "../../redux/products/productsOperations";
 import {
   selectDailyIntake,
-  // selectIsLoading,
-  // selectError,
   selectProducts,
 } from "../../redux/products/productsSelectors.js";
 import DailyCalorieIntake from "../calorieIntake/DailyCalorieIntake.jsx";
@@ -26,8 +24,6 @@ const DailyCaloriesForm = () => {
 
   const dailyIntake = useSelector(selectDailyIntake);
   const products = useSelector(selectProducts);
-  // const isLoading = useSelector(selectIsLoading);
-  // const error = useSelector(selectError);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const handleOpenModal = async (e) => {
