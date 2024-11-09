@@ -165,24 +165,24 @@ export const addConsumedProducts = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
+
+    const totalCalories = (product.calories / 100) * quantity;
+
+   
     const consumedProduct = new ConsumedProduct({
       product: product._id,
       user: req.user.id,
       date: currentDate,
       quantity,
+      totalCalories, 
     });
 
     const savedProduct = await consumedProduct.save();
     const populatedProduct = await savedProduct.populate("product");
 
-    const totalCalories = (product.calories / 100) * quantity;
-
     res.status(201).json({
       message: "Consumed product added successfully",
-      consumedProduct: {
-        ...populatedProduct.toObject(),
-        totalCalories,
-      },
+      consumedProduct: populatedProduct.toObject(),
     });
   } catch (error) {
     console.error("Error adding consumed product:", error);

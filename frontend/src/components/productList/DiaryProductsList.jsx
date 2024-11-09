@@ -35,8 +35,8 @@ const DiaryProductsList = ({ consumedProducts }) => {
                 </span>
 
                 <span className={styles.productCalories}>
-                  {product.product.calories
-                    ? `${Math.round(product.product.calories)} kcal`
+                  {product.totalCalories
+                    ? `${Math.round(product.totalCalories)} kcal`
                     : "N/A"}
                 </span>
 

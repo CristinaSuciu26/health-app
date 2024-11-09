@@ -32,7 +32,7 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
     return Array.isArray(consumedProducts)
       ? Math.round(
           consumedProducts.reduce(
-            (total, product) => total + (product.productDetails?.calories || 0),
+            (total, product) => total + (product.totalCalories || 0),
             0
           )
         )
@@ -65,11 +65,15 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
             <li className={styles.summaryItem}>
               <span className={styles.summaryListName}>% of Normal:</span>
               {percentageOfNormal > 100 ? (
-                <span className={`${styles.overconsumption} ${styles.percentage}`}>
+                <span
+                  className={`${styles.overconsumption} ${styles.percentage}`}
+                >
                   {percentageOfNormal} %
                 </span>
               ) : (
-                <span className={styles.percentage}>{percentageOfNormal} %</span>
+                <span className={styles.percentage}>
+                  {percentageOfNormal} %
+                </span>
               )}
             </li>
           </ul>

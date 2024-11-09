@@ -10,7 +10,6 @@ import {
 import {
   selectGrams,
   selectProductName,
-  selectSelectedDate,
 } from "../../redux/products/productsSelectors";
 import closeAddForm from "../../assets/images/logo/closeAddForm.svg";
 import addButton from "../../assets/images/logo/addButton.svg";
@@ -19,7 +18,6 @@ const DiaryAddProductForm = () => {
   const dispatch = useDispatch();
   const productName = useSelector(selectProductName);
   const grams = useSelector(selectGrams);
-  const selectedDate = useSelector(selectSelectedDate);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {

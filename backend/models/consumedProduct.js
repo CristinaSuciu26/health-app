@@ -21,6 +21,10 @@ const ConsumedProductSchema = new Schema({
     type: Number,
     required: true,
   },
+  totalCalories: {
+    type: Number,
+    required: true,
+  },
 });
 
 const ConsumedProduct =
