@@ -24,6 +24,7 @@ const DiaryDateCalendar = ({ onDateChange }) => {
   const handleDateChange = (date) => {
     if (date instanceof Date && !isNaN(date.getTime())) {
       onDateChange(date);
+      setIsCalendarVisible(false);
     } else {
       console.error("Invalid date:", date);
     }

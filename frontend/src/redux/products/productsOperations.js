@@ -102,3 +102,22 @@ export const removeProduct = createAsyncThunk(
     }
   }
 );
+// export const healthDataByDate = createAsyncThunk(
+//   "calories/daily-intake-by-date",
+//   async (selectedDate, { rejectWithValue }) => {
+//     try {
+//       const currentDate = new Date().toISOString().split("T")[0];
+//       const dateToFetch = selectedDate || currentDate;
+
+//       const response = await axiosInstance.get("/foods/daily-intake-by-date", {
+//         params: { date: dateToFetch },
+//       });
+
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(
+//         error.response?.data?.message || "Error fetching health data."
+//       );
+//     }
+//   }
+// );

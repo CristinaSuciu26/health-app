@@ -20,14 +20,12 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
 
   const formattedDate = useMemo(() => formatDate(selectedDate), [selectedDate]);
 
-  // Refetch products whenever selectedDate changes
   useEffect(() => {
     if (selectedDate) {
-      dispatch(getConsumedProducts(selectedDate)); // Fetch products for the new date
+      dispatch(getConsumedProducts(selectedDate));
     }
   }, [selectedDate, dispatch]);
 
-  // Calculate total consumed calories
   const consumedCalories = useMemo(() => {
     return Array.isArray(consumedProducts)
       ? Math.round(

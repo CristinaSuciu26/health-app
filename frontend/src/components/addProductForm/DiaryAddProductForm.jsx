@@ -51,7 +51,7 @@ const DiaryAddProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Current grams value:", grams);
+
     if (!productName || !grams || isNaN(grams) || parseInt(grams, 10) <= 0) {
       alert("Please enter a valid product name and grams.");
       return;
@@ -61,7 +61,6 @@ const DiaryAddProductForm = () => {
       productName,
       quantity: parseInt(grams, 10),
     };
-    console.log("Product Data being sent:", productData);
 
     try {
       await dispatch(addProduct(productData)).unwrap();

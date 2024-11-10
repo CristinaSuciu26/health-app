@@ -130,6 +130,38 @@ export const getDailyIntake = async (req, res) => {
   }
 };
 
+export const getUserHealthDataByDate = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { date } = req.query;
+
+    if (!date) {
+      return res
+        .status(400)
+        .json({ message: "Date query parameter is required" });
+    }
+
+    const parsedDate = new Date(date);
+    const startOfDay = new Date(parsedDate.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(parsedDate.setHours(23, 59, 59, 999));
+
+    const dailyLog = await DailyLog.findOne({
+      user: userId,
+      date: { $gte: startOfDay, $lt: endOfDay },
+    });
+
+    if (!dailyLog) {
+      return res
+        .status(404)
+        .json({ message: "No health data found for this date" });
+    }
+
+    res.status(200).json({ dailyLog });
+  } catch (error) {
+    console.error("Error fetching health data by date:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
 export const searchProducts = async (req, res) => {
   try {
     const { query } = req.query;
@@ -165,16 +197,14 @@ export const addConsumedProducts = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-
     const totalCalories = (product.calories / 100) * quantity;
 
-   
     const consumedProduct = new ConsumedProduct({
       product: product._id,
       user: req.user.id,
       date: currentDate,
       quantity,
-      totalCalories, 
+      totalCalories,
     });
 
     const savedProduct = await consumedProduct.save();
@@ -214,44 +244,44 @@ export const deleteConsumedProduct = async (req, res) => {
   }
 };
 
-export const getConsumedProductsByDate = async (req, res) => {
-  try {
-    const { date } = req.query;
-    const userId = req.user.id;
-    if (!date) {
-      return res
-        .status(400)
-        .json({ message: "Date query parameter is required" });
-    }
+// export const getConsumedProductsByDate = async (req, res) => {
+//   try {
+//     const { date } = req.query;
+//     const userId = req.user.id;
+//     if (!date) {
+//       return res
+//         .status(400)
+//         .json({ message: "Date query parameter is required" });
+//     }
 
-    const parsedDate = new Date(date);
-    if (isNaN(parsedDate.getTime())) {
-      return res.status(400).json({ message: "Invalid date format" });
-    }
+//     const parsedDate = new Date(date);
+//     if (isNaN(parsedDate.getTime())) {
+//       return res.status(400).json({ message: "Invalid date format" });
+//     }
 
-    const startOfDay = new Date(parsedDate.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(parsedDate.setHours(23, 59, 59, 999));
+//     const startOfDay = new Date(parsedDate.setHours(0, 0, 0, 0));
+//     const endOfDay = new Date(parsedDate.setHours(23, 59, 59, 999));
 
-    const consumedProducts = await ConsumedProduct.find({
-      user: userId,
-      date: {
-        $gte: startOfDay,
-        $lt: endOfDay,
-      },
-    }).populate({
-      path: "product",
-      select: "title calories",
-    });
+//     const consumedProducts = await ConsumedProduct.find({
+//       user: userId,
+//       date: {
+//         $gte: startOfDay,
+//         $lt: endOfDay,
+//       },
+//     }).populate({
+//       path: "product",
+//       select: "title calories",
+//     });
 
-    if (!consumedProducts.length) {
-      return res
-        .status(200)
-        .json({ message: "No products found for the specified date" });
-    }
+//     if (!consumedProducts.length) {
+//       return res
+//         .status(200)
+//         .json({ message: "No products found for the specified date" });
+//     }
 
-    res.status(200).json({ consumedProducts });
-  } catch (error) {
-    console.error("Error retrieving consumed products:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+//     res.status(200).json({ consumedProducts });
+//   } catch (error) {
+//     console.error("Error retrieving consumed products:", error);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
