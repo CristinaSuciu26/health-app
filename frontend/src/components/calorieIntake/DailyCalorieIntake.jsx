@@ -64,6 +64,7 @@ const DailyCalorieIntake = ({ calories, dietRecommendations }) => {
               <span className={styles.summaryListName}>% of Normal:</span>
               {percentageOfNormal > 100 ? (
                 <span
+                  title="You have consumed more calories than your recommended daily intake."
                   className={`${styles.overconsumption} ${styles.percentage}`}
                 >
                   {percentageOfNormal} %

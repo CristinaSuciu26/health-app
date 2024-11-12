@@ -42,7 +42,9 @@ ul {
   color: red;
   font-weight: bold;
   flex-basis: 50%;
+  cursor: pointer;
 }
+
 .noFoods {
   padding-right: 108px;
 }

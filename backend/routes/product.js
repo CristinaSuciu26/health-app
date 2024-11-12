@@ -11,7 +11,6 @@ import {
   getConsumedProductsByDate,
   getDailyIntake,
   getProducts,
-  getUserHealthDataByDate,
   searchProducts,
 } from "../controllers/product.js";
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -389,7 +388,5 @@ router.delete("/delete", authenticateToken, deleteConsumedProduct);
  *                   example: Server Error
  */
 router.get("/consumed-products", authenticateToken, getConsumedProductsByDate);
-
-// router.get("/daily-intake-by-date", getUserHealthDataByDate);
 
 export default router;

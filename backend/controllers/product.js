@@ -2,6 +2,7 @@ import ProductService from "../services/productService.js";
 import ConsumedProduct from "../models/consumedProduct.js";
 import DailyLog from "../models/daily.js";
 
+// Get products based on health data  ( for unauthenticated users )
 export const getProducts = async (req, res) => {
   try {
     const { bloodType, age, height, currentWeight, desiredWeight } = req.query;
@@ -54,13 +55,33 @@ export const getProducts = async (req, res) => {
   }
 };
 
+// Get products based on health data ( for authenticated users )
 export const getDailyIntake = async (req, res) => {
   try {
     if (!req.user.id) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    const { bloodType, age, height, currentWeight, desiredWeight } = req.body;
+    const { bloodType, age, height, currentWeight, desiredWeight, date } =
+      req.body;
+
+    if (date) {
+      const userId = req.user.id;
+      const parsedDate = new Date(date);
+      const startOfDay = new Date(parsedDate.setHours(0, 0, 0, 0));
+      const endOfDay = new Date(parsedDate.setHours(23, 59, 59, 999));
+
+      const dailyLog = await DailyLog.findOne({
+        user: userId,
+        date: { $gte: startOfDay, $lt: endOfDay },
+      });
+
+      if (dailyLog) {
+        const dailyIntake = dailyLog.dailyIntake || null;
+        const nonRecommendedProducts = dailyLog.nonRecommendedProducts || [];
+        return res.status(200).json({ dailyIntake, nonRecommendedProducts });
+      }
+    }
 
     if (
       bloodType === undefined ||
@@ -125,16 +146,15 @@ export const getDailyIntake = async (req, res) => {
       nonRecommendedProducts,
     });
   } catch (error) {
-    console.error("Error saving daily intake:", error);
+    console.error("Error retrieving or saving daily intake:", error);
     res.status(500).json({ message: "Server Error" });
   }
 };
-
-export const getUserHealthDataByDate = async (req, res) => {
+// Get consumed products by date
+export const getConsumedProductsByDate = async (req, res) => {
   try {
-    const userId = req.user.id;
     const { date } = req.query;
-
+    const userId = req.user.id;
     if (!date) {
       return res
         .status(400)
@@ -142,26 +162,38 @@ export const getUserHealthDataByDate = async (req, res) => {
     }
 
     const parsedDate = new Date(date);
+    if (isNaN(parsedDate.getTime())) {
+      return res.status(400).json({ message: "Invalid date format" });
+    }
+
     const startOfDay = new Date(parsedDate.setHours(0, 0, 0, 0));
     const endOfDay = new Date(parsedDate.setHours(23, 59, 59, 999));
 
-    const dailyLog = await DailyLog.findOne({
+    const consumedProducts = await ConsumedProduct.find({
       user: userId,
-      date: { $gte: startOfDay, $lt: endOfDay },
+      date: {
+        $gte: startOfDay,
+        $lt: endOfDay,
+      },
+    }).populate({
+      path: "product",
+      select: "title calories",
     });
 
-    if (!dailyLog) {
+    if (!consumedProducts.length) {
       return res
-        .status(404)
-        .json({ message: "No health data found for this date" });
+        .status(200)
+        .json({ message: "No products found for the specified date" });
     }
 
-    res.status(200).json({ dailyLog });
+    res.status(200).json({ consumedProducts });
   } catch (error) {
-    console.error("Error fetching health data by date:", error);
+    console.error("Error retrieving consumed products:", error);
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+// Search products
 export const searchProducts = async (req, res) => {
   try {
     const { query } = req.query;
@@ -182,6 +214,7 @@ export const searchProducts = async (req, res) => {
   }
 };
 
+// Add consumed products
 export const addConsumedProducts = async (req, res) => {
   try {
     const { productName, quantity } = req.body;
@@ -220,6 +253,7 @@ export const addConsumedProducts = async (req, res) => {
   }
 };
 
+// Delete consumed products
 export const deleteConsumedProduct = async (req, res) => {
   try {
     const { id } = req.body;
@@ -243,45 +277,3 @@ export const deleteConsumedProduct = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-
-// export const getConsumedProductsByDate = async (req, res) => {
-//   try {
-//     const { date } = req.query;
-//     const userId = req.user.id;
-//     if (!date) {
-//       return res
-//         .status(400)
-//         .json({ message: "Date query parameter is required" });
-//     }
-
-//     const parsedDate = new Date(date);
-//     if (isNaN(parsedDate.getTime())) {
-//       return res.status(400).json({ message: "Invalid date format" });
-//     }
-
-//     const startOfDay = new Date(parsedDate.setHours(0, 0, 0, 0));
-//     const endOfDay = new Date(parsedDate.setHours(23, 59, 59, 999));
-
-//     const consumedProducts = await ConsumedProduct.find({
-//       user: userId,
-//       date: {
-//         $gte: startOfDay,
-//         $lt: endOfDay,
-//       },
-//     }).populate({
-//       path: "product",
-//       select: "title calories",
-//     });
-
-//     if (!consumedProducts.length) {
-//       return res
-//         .status(200)
-//         .json({ message: "No products found for the specified date" });
-//     }
-
-//     res.status(200).json({ consumedProducts });
-//   } catch (error) {
-//     console.error("Error retrieving consumed products:", error);
-//     res.status(500).json({ message: "Server Error" });
-//   }
-// };
