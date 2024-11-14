@@ -74,6 +74,7 @@ const DailyCaloriesForm = () => {
       }
     } catch (err) {
       console.error("Failed to fetch daily intake:", err);
+      alert("Failed to fetch data. Please check your inputs and try again.");
     }
   };
 

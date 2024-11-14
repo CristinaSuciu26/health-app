@@ -5,7 +5,7 @@ import { authReducer } from "./auth/authSlice.js";
 import { productReducer } from "./products/productsSlice.js";
 
 const authPersistConfig = {
-  key: "auth",
+  key: "auth, products",
   storage,
   whitelist: ["user", "isLoggedIn", "isLoading"],
 };
