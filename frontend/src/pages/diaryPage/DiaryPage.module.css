@@ -22,6 +22,7 @@
   .addProductContent {
     display: flex;
     flex-direction: column-reverse;
+    padding-left: 148px
   }
 }
 

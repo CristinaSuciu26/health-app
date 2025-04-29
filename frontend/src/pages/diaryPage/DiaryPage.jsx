@@ -8,7 +8,7 @@ import { setSelectedDate } from "../../redux/products/productsSlice";
 import {
   selectConsumedProducts,
   selectDailyIntake,
-  selectProducts,
+  selectNonRecommendedProducts,
   selectSelectedDate,
 } from "../../redux/products/productsSelectors";
 import DailyCalorieIntake from "../../components/calorieIntake/DailyCalorieIntake";
@@ -20,7 +20,7 @@ const DiaryPage = () => {
   const selectedDate = useSelector(selectSelectedDate);
   const consumedProducts = useSelector(selectConsumedProducts);
   const dailyIntake = useSelector(selectDailyIntake);
-  const productsNotRecommended = useSelector(selectProducts);
+  const productsNotRecommended = useSelector(selectNonRecommendedProducts);
 
   const handleDateChange = (date) => {
     const formattedDate = formatDate(date);

@@ -10,6 +10,7 @@ import {
 
 const initialState = {
   products: [],
+  nonRecommendedProducts: [], 
   consumedProducts: [],
   dailyIntake: null,
   isLoading: false,
@@ -59,7 +60,7 @@ const productSlice = createSlice({
       .addCase(getDailyIntake.fulfilled, (state, action) => {
         state.isLoading = false;
         state.dailyIntake = action.payload.dailyIntake;
-        state.products = action.payload.nonRecommendedProducts;
+        state.nonRecommendedProducts  = action.payload.nonRecommendedProducts;
         state.error = null;
       })
       .addCase(getDailyIntake.rejected, (state, action) => {
@@ -118,7 +119,7 @@ const productSlice = createSlice({
       .addCase(getProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.dailyIntake = action.payload.dailyIntake;
-        state.products = action.payload.nonRecommendedProducts;
+        state.nonRecommendedProducts = action.payload.nonRecommendedProducts;
         state.error = null;
       })
       .addCase(getProducts.rejected, (state, action) => {

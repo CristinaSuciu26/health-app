@@ -8,7 +8,7 @@ import {
 } from "../../redux/products/productsOperations";
 import {
   selectDailyIntake,
-  selectProducts,
+  selectNonRecommendedProducts,
 } from "../../redux/products/productsSelectors.js";
 import DailyCalorieIntake from "../calorieIntake/DailyCalorieIntake.jsx";
 import { selectIsLoggedIn } from "../../redux/auth/authSelectors.js";
@@ -23,7 +23,7 @@ const DailyCaloriesForm = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const dailyIntake = useSelector(selectDailyIntake);
-  const products = useSelector(selectProducts);
+  const products = useSelector(selectNonRecommendedProducts);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const handleOpenModal = async (e) => {

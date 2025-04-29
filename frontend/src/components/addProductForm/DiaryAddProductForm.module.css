@@ -23,14 +23,21 @@
   align-items: center;
   gap: 20px;
 }
+.selectInput {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17.01px;
+  letter-spacing: 0.04em;
+  border-radius: 5px;
+  width: 250px;
+}
+
 .addProductForm input {
-  width: 100%;
+  width: 230px;
   padding: 10px;
-  border: none;
-  border-bottom: 1px solid var(--color-muted);
+  border: 1px solid rgb(211, 209, 209);
   border-radius: 5px;
   font-size: 14px;
-  color: var(--color-muted);
   outline: none;
   font-family: Verdana, sans-serif;
   font-size: 14px;
@@ -95,9 +102,19 @@
     flex-direction: row;
     width: 70%;
   }
+
+  .selectInput {
+    width: 400px;
+  }
 }
 @media screen and (min-width: 1280px) {
   .addProductForm {
     width: 86%;
+  }
+  .selectInput {
+    width: 335px;
+  }
+  .addProductForm input {
+    max-width: 50%;
   }
 }

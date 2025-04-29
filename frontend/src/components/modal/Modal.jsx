@@ -8,7 +8,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 const Modal = ({ isVisible, onClose, calories, dietRecommendations }) => {
   const navigate = useNavigate();
 
-
   if (!isVisible) return null;
 
   return (

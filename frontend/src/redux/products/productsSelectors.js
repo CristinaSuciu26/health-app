@@ -1,4 +1,6 @@
 export const selectProducts = (state) => state.products.products;
+export const selectNonRecommendedProducts = (state) =>
+  state.products.nonRecommendedProducts;
 export const selectConsumedProducts = (state) =>
   state.products.consumedProducts;
 export const selectDailyIntake = (state) => state.products.dailyIntake;
